@@ -35,7 +35,7 @@ class ProgramFrame extends JFrame
 {
 
     private static final int OUR_DEFAULT_WIDTH = 800;
-    private static final int OUR_DEFAULT_HEIGHT = 800;
+    private static final int OUR_DEFAULT_HEIGHT = 900;
 
     private JPanel myPanel;
 
@@ -87,17 +87,22 @@ class ProgramFrame extends JFrame
         // Create display running Pannel
         //
 
-        DisplayRunningPanel runningPanel = new DisplayRunningPanel(machine); 
+        DisplayRunningPanel runningPanel = new DisplayRunningPanel(machine);
 
         //
         // ADD Panel to programe frame
         //
 
         setPanel(new JPanel());
-        getPanel().setLayout(new BoxLayout(getPanel(), BoxLayout.Y_AXIS));
+        getPanel().setLayout(null);
 
+        buttonsPanel.setBounds(0, 0, 800, 200);
         getPanel().add(buttonsPanel);
+
+        displayPanel.setBounds(0, 200, 800, 300);
         getPanel().add(displayPanel);
+
+        runningPanel.setBounds(0, 500, 800, 300);
         getPanel().add(runningPanel);
         getPanel().setBackground(new Color(255, 229, 204));
         add(getPanel());

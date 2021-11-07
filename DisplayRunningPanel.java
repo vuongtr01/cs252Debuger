@@ -5,8 +5,8 @@ import javax.swing.JList;
 
 public class DisplayRunningPanel extends JPanel implements SimpleObserver
 {
-    private static final int OUR_DEFAULT_WIDTH = 600;
-    private static final int OUR_DEFAULT_HEIGHT = 300;
+    private static final int OUR_DEFAULT_WIDTH = 500;
+    private static final int OUR_DEFAULT_HEIGHT = 250;
 
     private JPanel myPanel;
     private ObservableVM252Machine mySubject;
@@ -68,18 +68,32 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
 
     public DisplayRunningPanel(ObservableVM252Machine machine)
     {
-        setSize(OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
+        setSubject(machine);
+        setContents(getSubject().getDisplayContents());
 
         setPanel(new JPanel());
-        getPanel().setBackground(new Color(153, 255, 51));
 
+        String displayString = "";
 
+        for (String content : getContents())
+        {
+            displayString = displayString + content + "\n";
+        }
         //
         // Initially display the model's display contents
         //
 
-        setSubject(machine);
-        setContents(getSubject().getDisplayContents());
+        JTextArea displayBox = new JTextArea(displayString, 200, 1);
+        displayBox.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
+        displayBox.setBackground(new Color(32, 32, 32));
+        displayBox.setForeground(Color.WHITE);
+        displayBox.setLineWrap(true);
+
+        JScrollPane scroll = new JScrollPane(displayBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
+
+        setLayout(null);
+        add(scroll);
 
     }
 
