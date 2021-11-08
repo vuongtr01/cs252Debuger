@@ -8,12 +8,12 @@ public class ButtonController extends JPanel
     private ObservableVM252Machine myModel;
 
     // toolbar
-    static JToolBar tb;
+    private JToolBar tb;
  
     // buttons
-    static JButton nCommand, qCommand, rCommand, baSubmit, stop, resume, increaseSpeed, decreaseSpeed ;
-    static JLabel toolbarLabel, baLabel;
-    static JTextField textFieldForba;
+    private JButton hHelp, nCommand, qCommand, rCommand, baSubmit, stop, resume, increaseSpeed, decreaseSpeed ;
+    private JLabel toolbarLabel, baLabel;
+    private JTextField textFieldForba;
 
     //
     // Accessors
@@ -72,6 +72,7 @@ public class ButtonController extends JPanel
         resume = new JButton("Resume");
         increaseSpeed = new JButton("Increase Speed");
         decreaseSpeed = new JButton ("Decrease Speed");
+        hHelp = new JButton(" Help ");
 
         // Add buttons to toolbar
 
@@ -92,6 +93,7 @@ public class ButtonController extends JPanel
         // JLabel notes = new JLabel("Ghazal's part");
         // getPanel().add(notes);
         getPanel().add(tb);
+        getPanel().add(hHelp);
 
         //
         // Add the panel to the container
