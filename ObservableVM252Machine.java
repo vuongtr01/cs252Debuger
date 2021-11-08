@@ -75,7 +75,7 @@ class ObservableVM252Machine extends SimpleObservable
     {
         super();
 
-        String [] welcomeContents = {"Welcome to VM252 debuger"};
+        String [] welcomeContents = {"Welcome to VM252 debugger"};
 
         setACCValue((short)0);
         setPCValue((short)0);
