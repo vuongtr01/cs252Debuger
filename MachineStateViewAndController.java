@@ -9,7 +9,6 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 
     private JPanel myPanel;
     private ObservableVM252Machine mySubjectModel;
-    private JLabel myNotes;
 
     //
     // Accessors
@@ -23,11 +22,6 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private ObservableVM252Machine getSubjectModel()
     {
         return mySubjectModel;
-    }
-
-    private JLabel getLable()
-    {
-        return myNotes;
     }
 
     //
@@ -52,11 +46,6 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 
     }
 
-    private void setLabel(JLabel other)
-    {
-        myNotes = other;
-    }
-
 
     //
     // Ctor
@@ -70,14 +59,27 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     public MachineStateViewAndController(ObservableVM252Machine initialMachine)
     {
         setSubjectModel(initialMachine);
-        setLabel(new JLabel("Micah's part"));
+        JLabel accLabel = new JLabel("ACC");
+        JTextField acc = new JTextField("acc");
+
+        JLabel counterLabel = new JLabel("Counter");
+        JTextField counter = new JTextField("counter");
+
+        JLabel nextInstructionLabel = new JLabel("Next Instruction");
+        JTextField nextInstruction = new JTextField("instruction");
 
         //
         // Create a panel to display the state of the machine model
         //
 
         setPanel(new JPanel());
-        getPanel().add(getLable());
+        getPanel().setSize(OUR_DEFAULT_FRAME_WIDTH, OUR_DEFAULT_FRAME_HEIGHT);
+        add(accLabel);
+        add(acc);
+        add(counterLabel);
+        add(counter);
+        add(nextInstructionLabel);
+        add(nextInstruction);
 
         //
         // Add the panel to the container
