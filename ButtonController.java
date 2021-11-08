@@ -67,7 +67,7 @@ public class ButtonController extends JPanel
         rCommand = new JButton(" r ");
         baLabel = new JLabel(" ba: ");
         textFieldForba = new JTextField("enter value for ba", 10);
-        baSubmit = new JButton("ba Submit");
+        // baSubmit = new JButton("ba Submit");
         stop = new JButton("Stop");
         resume = new JButton("Resume");
         increaseSpeed = new JButton("Increase Speed");
@@ -76,13 +76,14 @@ public class ButtonController extends JPanel
 
         // Add buttons to toolbar
 
+        tb.setFloatable(false);
         tb.add(toolbarLabel);
         tb.add(nCommand);
         tb.add(qCommand);
         tb.add(rCommand);
         tb.add(baLabel);
         tb.add(textFieldForba);
-        tb.add(baSubmit);
+        // tb.add(baSubmit);
         tb.add(stop);
         tb.add(resume);
         tb.add(increaseSpeed);
