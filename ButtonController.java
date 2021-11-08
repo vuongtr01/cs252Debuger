@@ -7,6 +7,14 @@ public class ButtonController extends JPanel
     private JPanel myPanel;
     private ObservableVM252Machine myModel;
 
+    // toolbar
+    static JToolBar tb;
+ 
+    // buttons
+    static JButton nCommand, qCommand, rCommand, baSubmit, stop, resume, increaseSpeed, decreaseSpeed ;
+    static JLabel toolbarLabel, baLabel;
+    static JTextField textFieldForba;
+
     //
     // Accessors
     //
@@ -47,14 +55,43 @@ public class ButtonController extends JPanel
     public ButtonController(ObservableVM252Machine initialModel)
     {
         setModel(initialModel);
+ 
+        // create a toolbar
+        tb = new JToolBar();
 
-        //
-        // Create buttons to do fuction
-        //
+        // Create buttons
+
+        toolbarLabel = new JLabel("Toolbar ");
+        nCommand = new JButton(" n ");
+        qCommand = new JButton(" q ");
+        rCommand = new JButton(" r ");
+        baLabel = new JLabel(" ba: ");
+        textFieldForba = new JTextField("enter value for ba", 10);
+        baSubmit = new JButton("ba Submit");
+        stop = new JButton("Stop");
+        resume = new JButton("Resume");
+        increaseSpeed = new JButton("Increase Speed");
+        decreaseSpeed = new JButton ("Decrease Speed");
+
+        // Add buttons to toolbar
+
+        tb.add(toolbarLabel);
+        tb.add(nCommand);
+        tb.add(qCommand);
+        tb.add(rCommand);
+        tb.add(baLabel);
+        tb.add(textFieldForba);
+        tb.add(baSubmit);
+        tb.add(stop);
+        tb.add(resume);
+        tb.add(increaseSpeed);
+        tb.add(decreaseSpeed);
+
 
         setPanel(new JPanel());
-        JLabel notes = new JLabel("Ghazal's part");
-        getPanel().add(notes);
+        // JLabel notes = new JLabel("Ghazal's part");
+        // getPanel().add(notes);
+        getPanel().add(tb);
 
         //
         // Add the panel to the container
