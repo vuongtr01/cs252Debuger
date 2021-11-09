@@ -68,18 +68,22 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
         JTextField nextInstruction = new JTextField("instruction");
 
+        GridLayout grid = new GridLayout(3,2);
+
         //
         // Create a panel to display the state of the machine model
         //
 
         setPanel(new JPanel());
         getPanel().setSize(OUR_DEFAULT_FRAME_WIDTH, OUR_DEFAULT_FRAME_HEIGHT);
-        add(accLabel);
-        add(acc);
-        add(counterLabel);
-        add(counter);
-        add(nextInstructionLabel);
-        add(nextInstruction);
+        getPanel().setLayout(grid);
+
+        getPanel().add(accLabel);
+        getPanel().add(acc);
+        getPanel().add(counterLabel);
+        getPanel().add(counter);
+        getPanel().add(nextInstructionLabel);
+        getPanel().add(nextInstruction);
 
         //
         // Add the panel to the container
