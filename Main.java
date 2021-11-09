@@ -63,7 +63,7 @@ class ProgramFrame extends JFrame
 
     public ProgramFrame()
     {
-        setTitle("VM252 Debuger");
+        setTitle("VM252 Debugger");
         setSize(OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
 
         //
