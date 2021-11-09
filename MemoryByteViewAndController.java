@@ -86,7 +86,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Create table to display memory bytes
         //
         
-        myTable = new JTable(4010, 21);
+        myTable = new JTable(410, 21);
         
         // Row address counter for labeling
         int rowAddr = 0;
@@ -122,8 +122,9 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         JScrollPane myScrollPane=new JScrollPane(myTable); 
         myScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
         myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-        myScrollPane.setBounds(0, 0, 50, 50);
-
+        myScrollPane.setBounds(0, 0, 400, 150);
+        
+        getPanel().setLayout(null);
         getPanel().add(myScrollPane);
         
     }
