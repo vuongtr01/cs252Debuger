@@ -121,7 +121,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         JScrollPane myScrollPane=new JScrollPane(myTable); 
         myScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
         myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-        myScrollPane.setBounds(0, 0, 400, 150);
+        myScrollPane.setBounds(0, 0, 300, 150);
         
         setLayout(null);
         add(myScrollPane);
