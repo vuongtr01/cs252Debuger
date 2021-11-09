@@ -69,15 +69,12 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
     public MemoryByteViewAndController(ObservableVM252Machine initialMachine)
     {
         setSubjectModel(initialMachine);
-        setLabel(new JLabel("Tess's part"));
 
         //
         // Create a panel to display the state of the machine model
         //
 
         setPanel(new JPanel());
-        getPanel().setBackground(new Color(255, 255, 204));
-        getPanel().add(getLable());
 
         //
         // Add the panel to the container
