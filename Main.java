@@ -104,7 +104,7 @@ class ProgramFrame extends JFrame
 
         runningPanel.setBounds(0, 500, 800, 300);
         getPanel().add(runningPanel);
-        getPanel().setBackground(new Color(255, 229, 204));
+
         add(getPanel());
     }
 }

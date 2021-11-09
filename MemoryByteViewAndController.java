@@ -80,16 +80,15 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Add the panel to the container
         //
 
-        
         //
         // Create table to display memory bytes
         //
-        
+
         myTable = new JTable(410, 21);
-        
+
         // Row address counter for labeling
         int rowAddr = 0;
-        
+
         // for loop that loops through every row, labels the addr
         // then another for loop that loops through every other cell
         // and inserts memory byte. Because we have no
@@ -101,31 +100,29 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // and so we can store them too. Along with an event listener. Techincally
         // the table is already editable, but do we want to re-manually change it
         // so the event listener is built in and so that only certain cells are editable?
-        
+
         for(int row = 0; row < 410; ++row){
             myTable.setValueAt("Addr " + rowAddr, row, 0);
             for(int col = 1; col < 21; ++col){
                 myTable.setValueAt("00", row, col);
             }
             rowAddr = rowAddr + 20;
-        }   
-        
+        } 
+
         // I have thought of maybe adding a for loop to resize column widths?
         // I'm a little confused on the documentation for it though so I might want some
         // help talking through it.
-        
         // also, do we want to label the table? borders? anything to "style" it?
-        
-        
+
         myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane myScrollPane=new JScrollPane(myTable); 
         myScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
         myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
         myScrollPane.setBounds(0, 0, 300, 150);
-        
+
         setLayout(null);
         add(myScrollPane);
-        
+
     }
 
     @Override

@@ -46,7 +46,6 @@ public class FunctionButtonsPanel extends JPanel
         ButtonController buttons = new ButtonController(machine);
 
         setPanel(new JPanel());
-        getPanel().setBackground(new Color(255, 0, 0));
         getPanel().setSize(OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
         getPanel().add(buttons);
 
