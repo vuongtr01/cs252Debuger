@@ -86,7 +86,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Create table to display memory bytes
         //
         
-        myTable = new JTable(4010, 21);
+        myTable = new JTable(410, 21);
         
         // Row address counter for labeling
         int rowAddr = 0;
