@@ -60,11 +60,14 @@ public class DisplayMachinePanel extends JPanel
         // add panels to container
         //
 
-        getPanel().add(displayState);
-        getPanel().add(displayMemory);
+        setLayout(null);
 
-        setBorder(new LineBorder(Color.RED));
-        add(getPanel());
+        displayState.setBounds(0,0,300, 300);
+        add(displayState);
+
+        displayMemory.setBounds(400, 0, 300, 300);
+        add(displayMemory);
+
 
     }
 }
