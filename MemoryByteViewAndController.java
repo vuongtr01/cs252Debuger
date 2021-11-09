@@ -80,7 +80,6 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Add the panel to the container
         //
 
-        add(getPanel());
         
         //
         // Create table to display memory bytes
@@ -124,8 +123,8 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
         myScrollPane.setBounds(0, 0, 400, 150);
         
-        getPanel().setLayout(null);
-        getPanel().add(myScrollPane);
+        setLayout(null);
+        add(myScrollPane);
         
     }
 
