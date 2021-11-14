@@ -1,32 +1,46 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.Scanner;
+import vm252utilities.VM252Utilities;
 
 public class Main
 {
     public static void main(String [] commandLineArguments)
     {
-        EventQueue.invokeLater(
-            () ->
-                {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter VM252 object-file name: ");
+        String objectFileName = in.nextLine();
+
+        byte [] program = VM252Utilities.readObjectCodeFromObjectFile(objectFileName);
+
+        if (program == null)
+            System.out.println(
+                    "File does not exist or isn't a valid VM252 object-code file"
+                    );
+        else{
+            EventQueue.invokeLater(
+                () ->
+                    {
 
 
-                    //
-                    // Create program frame
-                    //
+                        //
+                        // Create program frame
+                        //
 
-                        ProgramFrame frame = new ProgramFrame();
+                            ProgramFrame frame = new ProgramFrame(program);
 
-                    //
-                    // Set frame's visibility and closing behavior
-                    //
+                        //
+                        // Set frame's visibility and closing behavior
+                        //
 
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        frame.setVisible(true);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setVisible(true);
 
-                    }
+                        }
 
-            );
+                );
+        }
 
     }
 }
@@ -61,7 +75,7 @@ class ProgramFrame extends JFrame
     //Ctors
     //
 
-    public ProgramFrame()
+    public ProgramFrame(byte[] program)
     {
         setTitle("VM252 Debugger");
         setSize(OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
@@ -70,7 +84,7 @@ class ProgramFrame extends JFrame
         // Create Model Object
         //
 
-        ObservableVM252Machine machine = new ObservableVM252Machine();
+        ObservableVM252Machine machine = new ObservableVM252Machine(program);
 
         //
         // Create function buttons Pannel
