@@ -31,6 +31,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private void setPanel(JPanel other)
     {
         myPanel = other;
+        myPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     private void setSubjectModel(ObservableVM252Machine other)
@@ -60,13 +61,16 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     {
         setSubjectModel(initialMachine);
         JLabel accLabel = new JLabel("ACC");
-        JTextField acc = new JTextField("acc");
+        JTextField acc = new JTextField("acc text");
+        //acc.addActionListener(accListener);
 
         JLabel counterLabel = new JLabel("Counter");
-        JTextField counter = new JTextField("counter");
+        JTextField counter = new JTextField("counter text");
+        //acc.addActionListener(counterListener);
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
-        JTextField nextInstruction = new JTextField("instruction");
+        JTextField nextInstruction = new JTextField("instruction text");
+        nextInstruction.setEditable(false);
 
         GridLayout grid = new GridLayout(3,2);
 
@@ -99,6 +103,6 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         // Set the text in the text fields to display the state of the machine, 
         // which includes ACC, Counter, Next Instruction
         //
-        ;
+        
     }
 }
