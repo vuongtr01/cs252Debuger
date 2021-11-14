@@ -63,8 +63,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         JLabel accLabel = new JLabel("ACC");
         JTextField acc = new JTextField(getSubjectModel().getACCValue());
         acc.addActionListener( new ActionListener(){
-            @Override
-	        private void actionPreformed(ActionEvent accChange){
+	        public void actionPerformed(ActionEvent accChange){
 		        getSubjectModel().setACCValue(Short.valueOf(acc.getText()));
 		        getPanel().revalidate();
 		        getPanel().repaint();
@@ -74,8 +73,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         JLabel counterLabel = new JLabel("Counter");
         JTextField counter = new JTextField(getSubjectModel().getPCValue());
         counter.addActionListener( new ActionListener(){
-            @Override
-            private void actionPreformed(ActionEvent counterChange){
+            public void actionPerformed(ActionEvent counterChange){
                 getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
                 getPanel().revalidate();
                 getPanel().repaint();
