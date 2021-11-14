@@ -61,15 +61,29 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     {
         setSubjectModel(initialMachine);
         JLabel accLabel = new JLabel("ACC");
-        JTextField acc = new JTextField("acc text");
-        //acc.addActionListener(accListener);
+        JTextField acc = new JTextField(getSubjectModel().getACCValue());
+        acc.addActionListener( new ActionListener(){
+            @Override
+	        private void actionPreformed(ActionEvent accChange){
+		        getSubjectModel().setACCValue(Short.valueOf(acc.getText()));
+		        getPanel().revalidate();
+		        getPanel().repaint();
+	    }}
+);
 
         JLabel counterLabel = new JLabel("Counter");
-        JTextField counter = new JTextField("counter text");
-        //acc.addActionListener(counterListener);
+        JTextField counter = new JTextField(getSubjectModel().getPCValue());
+        counter.addActionListener( new ActionListener(){
+            @Override
+            private void actionPreformed(ActionEvent counterChange){
+                getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
+                getPanel().revalidate();
+                getPanel().repaint();
+        }}
+    );
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
-        JTextField nextInstruction = new JTextField("instruction text");
+        JTextField nextInstruction = new JTextField(getSubjectModel().getNextInstruction());
         nextInstruction.setEditable(false);
 
         GridLayout grid = new GridLayout(3,2);
