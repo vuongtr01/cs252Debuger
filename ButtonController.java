@@ -67,12 +67,16 @@ public class ButtonController extends JPanel
         rCommand = new JButton(" r ");
         baLabel = new JLabel(" ba: ");
         textFieldForba = new JTextField("enter value for ba", 10);
-        // baSubmit = new JButton("ba Submit");
         stop = new JButton("Stop");
         resume = new JButton("Resume");
         increaseSpeed = new JButton("Increase Speed");
         decreaseSpeed = new JButton ("Decrease Speed");
         hHelp = new JButton(" Help ");
+
+        // add the help functionality
+        // to print what all the other commands do
+        // using an eventlistenr
+
         hHelp.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e){
                 String [] helpContents = {"ba MA = Set a breakpoint at address MA", 
@@ -83,6 +87,19 @@ public class ButtonController extends JPanel
                 };
 		        getModel().setDisplayContents(helpContents);
             }});
+
+        // add the stop functionality
+        // quit the program up clicking on the stop button
+        // using an event listener for this function
+
+        ActionListener stopActListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        };
+
+        stop.addActionListener(stopActListener);
 
         // Add buttons to toolbar
 
@@ -97,17 +114,20 @@ public class ButtonController extends JPanel
         tb.add(resume);
         tb.add(increaseSpeed);
         tb.add(decreaseSpeed);
+        tb.addSeparator(new Dimension(5, 1));
+        tb.add(hHelp);
 
 
         setPanel(new JPanel());
-        // JLabel notes = new JLabel("Ghazal's part");
-        // getPanel().add(notes);
         getPanel().add(tb);
-        getPanel().add(hHelp);
 
-        //
+        // add color to the background of the toolbar
+        // to sdistinguich it from other part
+
+        tb.setBackground(new Color(200,200,200));
+ 
+
         // Add the panel to the container
-        //
 
         add(getPanel());
     }
