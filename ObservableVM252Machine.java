@@ -83,6 +83,12 @@ class ObservableVM252Machine extends SimpleObservable
         announceChange();
     }
 
+    public void resetDisplayContents()
+    {
+        String [] contents = {""};
+        myDisplayContents = contents;
+    }
+
     private void setSuppressPcStatus(boolean other)
     {
         suppressPcIncrement = other;
@@ -164,36 +170,42 @@ class ObservableVM252Machine extends SimpleObservable
 
                 case VM252ArchitectureSpecifications.LOAD_OPCODE -> {
 
+                    resetDisplayContents();
                     setACCValue(VM252ArchitectureSpecifications.fetchIntegerValue(getMemoryValue(), operand));
 
                     }
 
                 case VM252ArchitectureSpecifications.SET_OPCODE -> {
 
+                    resetDisplayContents();
                     setACCValue(operand);
 
                     }
 
                 case VM252ArchitectureSpecifications.STORE_OPCODE -> {
 
+                    resetDisplayContents();
                     VM252ArchitectureSpecifications.storeIntegerValue(getMemoryValue(), operand, getACCValue());
 
                     }
 
                 case VM252ArchitectureSpecifications.ADD_OPCODE -> {
 
+                    resetDisplayContents();
                     setACCValue((short)(getACCValue() + VM252ArchitectureSpecifications.fetchIntegerValue(getMemoryValue(), operand)));
 
                     }
 
                 case VM252ArchitectureSpecifications.SUBTRACT_OPCODE -> {
 
+                    resetDisplayContents();
                     setACCValue((short)(getACCValue() - VM252ArchitectureSpecifications.fetchIntegerValue(getMemoryValue(), operand)));
 
                     }
 
                 case VM252ArchitectureSpecifications.JUMP_OPCODE -> {
 
+                    resetDisplayContents();
                     setPCValue(operand);
                     setSuppressPcStatus(true);
 
@@ -202,6 +214,7 @@ class ObservableVM252Machine extends SimpleObservable
                 case VM252ArchitectureSpecifications.JUMP_ON_ZERO_OPCODE -> {
 
                     if (getACCValue() == 0) {
+                        resetDisplayContents();
                         setPCValue(operand);
                         setSuppressPcStatus(true);
                         }
@@ -210,7 +223,8 @@ class ObservableVM252Machine extends SimpleObservable
 
                 case VM252ArchitectureSpecifications.JUMP_ON_POSITIVE_OPCODE -> {
 
-                    if (getACCValue() > 0) {
+                    resetDisplayContents();
+                        if (getACCValue() > 0) {
                         setPCValue(operand);
                         setSuppressPcStatus(true);
                         }
@@ -224,6 +238,8 @@ class ObservableVM252Machine extends SimpleObservable
                     //     is available from the standard input stream
                     //     (discarding non-integer inputs, if necessary)
                     //
+
+                        resetDisplayContents();
 
                         for (System.out.print("INPUT: "), System.out.flush();
                                 input.hasNext() && ! input.hasNextInt();
@@ -300,11 +316,15 @@ class ObservableVM252Machine extends SimpleObservable
             //
 
             if (! getHaltStatus() && ! getSuppressPcStatus())
+            {
+
+                resetDisplayContents();
                 setPCValue(
                     (short)
                         ((getPCValue() + VM252ArchitectureSpecifications.instructionSize(opcode))
                             % VM252ArchitectureSpecifications.numberOfMemoryBytes)
                         );
+            }
 
         }
 

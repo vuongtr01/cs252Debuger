@@ -79,8 +79,8 @@ public class ButtonController extends JPanel
 
         hHelp.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e){
-                String [] helpContents = {"ba MA = Set a breakpoint at address MA", 
-                "help = Print this help message", 
+                String [] helpContents = {"ba MA = Set a breakpoint at address MA",
+                "help = Print this help message",
                 "n = Execute next machine instruction",
                 "q = Quit",
                 "r = Run machine until error occurs or stop instruction is executed"

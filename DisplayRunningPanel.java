@@ -106,18 +106,19 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
     @Override
     public void update()
     {
-        setContents(getSubject().getDisplayContents());
 
-        String displayString = "";
-
-        for (String content : getSubject().getDisplayContents())
+        if(!(getSubject().getDisplayContents().length == 1 && getSubject().getDisplayContents()[0] == ""))
         {
-            displayString = displayString + content + "\n";
-        }
+            String displayString = "";
 
-        if(displayString != "")
+            for (String content : getSubject().getDisplayContents())
+            {
+                displayString = displayString + content + "\n";
+            }
+
             getDisplayBox().append(displayString);
 
+        }
     }
 }
 
