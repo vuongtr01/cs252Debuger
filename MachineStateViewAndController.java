@@ -68,7 +68,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 		        getPanel().revalidate();
 		        getPanel().repaint();
 	    }}
-);
+    );
 
         JLabel counterLabel = new JLabel("Counter");
         JTextField counter = new JTextField(getSubjectModel().getPCValue());
@@ -84,7 +84,18 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         JTextField nextInstruction = new JTextField(getSubjectModel().getNextInstruction());
         nextInstruction.setEditable(false);
 
-        GridLayout grid = new GridLayout(3,2);
+        JLabel inputLabel = new JLabel("Input");
+        JTextField input = new JTextField(getSubjectModel().getInputValue());
+        counter.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent inputChange){
+                getSubjectModel().setInputValue(Short.valueOf(input.getText()));
+                getPanel().revalidate();
+                getPanel().repaint();
+        }}
+    );
+
+
+        GridLayout grid = new GridLayout(4,2);
 
         //
         // Create a panel to display the state of the machine model
@@ -100,6 +111,8 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         getPanel().add(counter);
         getPanel().add(nextInstructionLabel);
         getPanel().add(nextInstruction);
+        getPanel().add(inputLabel);
+        getPanel().add(input);
 
         //
         // Add the panel to the container

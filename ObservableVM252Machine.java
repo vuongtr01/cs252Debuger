@@ -10,6 +10,7 @@ class ObservableVM252Machine extends SimpleObservable
     private boolean lastInstructionCausedHalt;
     private String myNextInstruction;
     private String [] myDisplayContents;
+    private int myInput;
 
     //
     // Accessors
@@ -47,6 +48,11 @@ class ObservableVM252Machine extends SimpleObservable
     private boolean getHaltStatus()
     {
         return lastInstructionCausedHalt;
+    }
+
+    public int getInputValue()
+    {
+        return myInput;
     }
 
     //
@@ -92,6 +98,11 @@ class ObservableVM252Machine extends SimpleObservable
        lastInstructionCausedHalt = other;
     }
 
+    public void setInputValue(int other)
+    {
+        myInput = other;
+    }
+
     //
     // Ctors
     //
@@ -125,7 +136,8 @@ class ObservableVM252Machine extends SimpleObservable
 
     public void runProgram(byte [] program)
     {
-        Scanner input = new Scanner(System.in);
+        //Scanner input = new Scanner(System.in);
+        int input = getInputValue();
 
         //
         // Let opcode = the operation code portion of the instruction stored
@@ -222,25 +234,25 @@ class ObservableVM252Machine extends SimpleObservable
                     //     (discarding non-integer inputs, if necessary)
                     //
 
-                        for (System.out.print("INPUT: "), System.out.flush();
-                                input.hasNext() && ! input.hasNextInt();
-                                System.out.print("INPUT: "),
-                                    System.out.flush()) {
-                                //
-                                // Loop invariant:
-                                //     On the current INPUT attempt, all
-                                //     tokens in System.out prior to the
-                                //     next available one have been
-                                //     non-integer tokens
-                                //
-                            input.next();
-                            System.out.println(
-                                "INPUT: Bad integer value; try again"
-                                );
-                            System.out.flush();
-                            }
+                        // for (System.out.print("INPUT: "), System.out.flush();
+                        //         input.hasNext() && ! input.hasNextInt();
+                        //         System.out.print("INPUT: "),
+                        //             System.out.flush()) {
+                        //         //
+                        //         // Loop invariant:
+                        //         //     On the current INPUT attempt, all
+                        //         //     tokens in System.out prior to the
+                        //         //     next available one have been
+                        //         //     non-integer tokens
+                        //         //
+                        //     input.next();
+                        //     System.out.println(
+                        //         "INPUT: Bad integer value; try again"
+                        //         );
+                        //     System.out.flush();
+                        //     }
 
-                        setHalt(! input.hasNext());
+                        // setHalt(! input.hasNext());
 
                     //
                     // Issue an error message if no input was available
@@ -262,7 +274,8 @@ class ObservableVM252Machine extends SimpleObservable
 
                         else
 
-                            setACCValue((short) input.nextInt());
+                            //setACCValue((short) input.nextInt());
+                            setACCValue((short) input);
 
                     }
 
