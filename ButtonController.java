@@ -88,18 +88,18 @@ public class ButtonController extends JPanel
 		        getModel().setDisplayContents(helpContents);
             }});
 
-        // add the stop functionality
-        // quit the program up clicking on the stop button
+        // add the quit functionality
+        // quit the program up clicking on the quit button
         // using an event listener for this function
 
-        ActionListener stopActListener = new ActionListener() {
+        ActionListener quitActListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         };
 
-        stop.addActionListener(stopActListener);
+        qCommand.addActionListener(quitActListener);
 
         //
         // Add action listener for r command button
