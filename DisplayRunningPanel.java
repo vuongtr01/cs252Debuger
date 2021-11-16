@@ -11,6 +11,7 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
     private JPanel myPanel;
     private ObservableVM252Machine mySubject;
     private String [] myContents;
+    private JTextArea displayBox;
 
     //
     // Accessors
@@ -29,6 +30,11 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
     private String [] getContents()
     {
         return myContents;
+    }
+
+    private JTextArea getDisplayBox()
+    {
+        return displayBox;
     }
 
     //
@@ -57,6 +63,11 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
 
     }
 
+    private void setDisplayBox(JTextArea other)
+    {
+        displayBox = other;
+    }
+
     //
     // Ctors
     //
@@ -73,23 +84,18 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
 
         setPanel(new JPanel());
 
-        String displayString = "";
 
-        for (String content : getContents())
-        {
-            displayString = displayString + content + "\n";
-        }
         //
         // Initially display the model's display contents
         //
 
-        JTextArea displayBox = new JTextArea(displayString, 200, 1);
-        displayBox.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
-        displayBox.setBackground(new Color(32, 32, 32));
-        displayBox.setForeground(Color.WHITE);
-        displayBox.setLineWrap(true);
+        setDisplayBox(new JTextArea("Welcome" + "\n", 200, 1));
+        getDisplayBox().setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
+        getDisplayBox().setBackground(new Color(32, 32, 32));
+        getDisplayBox().setForeground(Color.WHITE);
+        getDisplayBox().setLineWrap(true);
 
-        JScrollPane scroll = new JScrollPane(displayBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scroll = new JScrollPane(getDisplayBox(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
 
         setLayout(null);
@@ -102,7 +108,16 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
     {
         setContents(getSubject().getDisplayContents());
 
-        repaint();
+        String displayString = "";
+
+        for (String content : getSubject().getDisplayContents())
+        {
+            displayString = displayString + content + "\n";
+        }
+
+        if(displayString != "")
+            getDisplayBox().append(displayString);
+
     }
 }
 

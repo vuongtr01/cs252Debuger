@@ -9,7 +9,7 @@ public class ButtonController extends JPanel
 
     // toolbar
     private JToolBar tb;
- 
+
     // buttons
     private JButton hHelp, nCommand, qCommand, rCommand, stop, resume, increaseSpeed, decreaseSpeed ;
     private JLabel toolbarLabel, baLabel;
@@ -55,7 +55,7 @@ public class ButtonController extends JPanel
     public ButtonController(ObservableVM252Machine initialModel)
     {
         setModel(initialModel);
- 
+
         // create a toolbar
         tb = new JToolBar();
 
@@ -101,6 +101,13 @@ public class ButtonController extends JPanel
 
         stop.addActionListener(stopActListener);
 
+        //
+        // Add action listener for r command button
+        //
+
+        RunButtonActionListener runListener = new RunButtonActionListener();
+        rCommand.addActionListener(runListener);
+
         // Add buttons to toolbar
 
         tb.setFloatable(false);
@@ -125,11 +132,22 @@ public class ButtonController extends JPanel
         // to sdistinguich it from other part
 
         tb.setBackground(new Color(200,200,200));
- 
+
 
         // Add the panel to the container
 
         add(getPanel());
+    }
+
+    private class RunButtonActionListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            while ( ! getModel().getHaltStatus())
+            {
+                getModel().runProgram();
+            }
+        }
     }
 }
 

@@ -44,7 +44,7 @@ class ObservableVM252Machine extends SimpleObservable
         return suppressPcIncrement;
     }
 
-    private boolean getHaltStatus()
+    public boolean getHaltStatus()
     {
         return lastInstructionCausedHalt;
     }
@@ -80,6 +80,7 @@ class ObservableVM252Machine extends SimpleObservable
     public void setDisplayContents(String [] other)
     {
         myDisplayContents = other;
+        announceChange();
     }
 
     private void setSuppressPcStatus(boolean other)
@@ -114,16 +115,18 @@ class ObservableVM252Machine extends SimpleObservable
         super();
 
         byte [] memory = new byte[ 8192 ];
-        String [] welcomeContents = {"Welcome to VM252 debugger"};
+        String [] welcomeContents = {""};
 
+        setSuppressPcStatus(false);
+        setHalt(false);
         setACCValue((short)0);
         setPCValue((short) 0);
         setMemoryValue(VM252ArchitectureSpecifications.addProgramToMemory(memory, programEncoded));
-        setNextInstruction("");
+        setNextInstruction("hello world");
         setDisplayContents(welcomeContents);
     }
 
-    public void runProgram(byte [] program)
+    public void runProgram()
     {
         Scanner input = new Scanner(System.in);
 
@@ -147,7 +150,7 @@ class ObservableVM252Machine extends SimpleObservable
                 : 0;
 
         setSuppressPcStatus(false);
-        setHalt(false);
+
         //
         // Simulate execution of a VM252 instruction represented by opcode
         //     (and for instructions that have an operand, operand), altering
@@ -261,7 +264,6 @@ class ObservableVM252Machine extends SimpleObservable
                     //
 
                         else
-
                             setACCValue((short) input.nextInt());
 
                     }
@@ -270,6 +272,8 @@ class ObservableVM252Machine extends SimpleObservable
 
                     System.out.println("OUTPUT: " + getACCValue());
                     System.out.flush();
+                    String [] output = {"OUTPUT" + getACCValue()};
+                    setDisplayContents(output);
 
                     }
 
@@ -282,6 +286,8 @@ class ObservableVM252Machine extends SimpleObservable
                 case VM252ArchitectureSpecifications.STOP_OPCODE -> {
 
                     setHalt(true);
+                    String [] stopMessage = {"Program Stops"};
+                    setDisplayContents(stopMessage);
 
                     }
 
@@ -294,12 +300,12 @@ class ObservableVM252Machine extends SimpleObservable
             //
 
             if (! getHaltStatus() && ! getSuppressPcStatus())
-
                 setPCValue(
                     (short)
                         ((getPCValue() + VM252ArchitectureSpecifications.instructionSize(opcode))
                             % VM252ArchitectureSpecifications.numberOfMemoryBytes)
                         );
+
         }
 
 }

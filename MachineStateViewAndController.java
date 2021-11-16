@@ -61,24 +61,24 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     {
         setSubjectModel(initialMachine);
         JLabel accLabel = new JLabel("ACC");
-        JTextField acc = new JTextField(getSubjectModel().getACCValue());
-        acc.addActionListener( new ActionListener(){
-	        public void actionPerformed(ActionEvent accChange){
-		        getSubjectModel().setACCValue(Short.valueOf(acc.getText()));
-		        getPanel().revalidate();
-		        getPanel().repaint();
-	    }}
-);
+        JTextField acc = new JTextField("" + getSubjectModel().getACCValue());
+        //acc.addActionListener( new ActionListener(){
+	    //    public void actionPerformed(ActionEvent accChange){
+		//        getSubjectModel().setACCValue(Short.valueOf(acc.getText()));
+		//        getPanel().revalidate();
+		//        getPanel().repaint();
+        //    }}
+        //);
 
         JLabel counterLabel = new JLabel("Counter");
-        JTextField counter = new JTextField(getSubjectModel().getPCValue());
-        counter.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent counterChange){
-                getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
-                getPanel().revalidate();
-                getPanel().repaint();
-        }}
-    );
+        JTextField counter = new JTextField("" + getSubjectModel().getPCValue());
+        //counter.addActionListener( new ActionListener(){
+        //    public void actionPerformed(ActionEvent counterChange){
+        //        getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
+        //        getPanel().revalidate();
+        //        getPanel().repaint();
+        //    }}
+        //);
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
         JTextField nextInstruction = new JTextField(getSubjectModel().getNextInstruction());
@@ -115,6 +115,5 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         // Set the text in the text fields to display the state of the machine, 
         // which includes ACC, Counter, Next Instruction
         //
-        
     }
 }
