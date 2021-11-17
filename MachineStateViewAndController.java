@@ -72,13 +72,21 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 
         JLabel counterLabel = new JLabel("Counter");
         JTextField counter = new JTextField("" + getSubjectModel().getPCValue());
-        //counter.addActionListener( new ActionListener(){
-        //    public void actionPerformed(ActionEvent counterChange){
-        //        getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
-        //        getPanel().revalidate();
-        //        getPanel().repaint();
-        //    }}
-        //);
+
+        // Add action listener to counter, 
+        // when enter is hit on the keyboard
+        // PC is going to be stored using setPCValue()
+
+        Action setPcValue = new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
+                // pc is set to counter.getText()
+            }
+        };
+        counter.addActionListener( setPcValue );
+
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
         JTextField nextInstruction = new JTextField(getSubjectModel().getNextInstruction());
