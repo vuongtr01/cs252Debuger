@@ -77,15 +77,14 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         // when enter is hit on the keyboard
         // PC is going to be stored using setPCValue()
 
-        Action setPcValue = new AbstractAction(){
+        ActionListener setPcValue = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
                 // pc is set to counter.getText()
             }
         };
-        counter.addActionListener( setPcValue );
+        counter.addActionListener(setPcValue);
 
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
