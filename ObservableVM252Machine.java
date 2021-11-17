@@ -288,7 +288,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                     System.out.println("OUTPUT: " + getACCValue());
                     System.out.flush();
-                    String [] output = {"OUTPUT" + getACCValue()};
+                    String [] output = {"OUTPUT: " + getACCValue()};
                     setDisplayContents(output);
 
                     }

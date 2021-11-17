@@ -8,6 +8,10 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private static final int OUR_DEFAULT_FRAME_HEIGHT = 300;
 
     private JPanel myPanel;
+    private JTextField myAccTextField;
+    private JTextField myPcTextField;
+    private JTextField myNextInstructionTextField;
+
     private ObservableVM252Machine mySubjectModel;
 
     //
@@ -22,6 +26,21 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private ObservableVM252Machine getSubjectModel()
     {
         return mySubjectModel;
+    }
+
+    private JTextField getAccTextField()
+    {
+        return myAccTextField;
+    }
+
+    private JTextField getPcTextField()
+    {
+        return myPcTextField;
+    }
+
+    private JTextField getNextInstructionTextField()
+    {
+        return myNextInstructionTextField;
     }
 
     //
@@ -47,6 +66,20 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 
     }
 
+    private void setAccTextField( JTextField other )
+    {
+        myAccTextField = other;
+    }
+
+    private void setPcTextField( JTextField other )
+    {
+        myPcTextField = other;
+    }
+
+    private void setNextInstructionTextField( JTextField other )
+    {
+        myNextInstructionTextField = other;
+    }
 
     //
     // Ctor
@@ -61,7 +94,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     {
         setSubjectModel(initialMachine);
         JLabel accLabel = new JLabel("ACC");
-        JTextField acc = new JTextField("" + getSubjectModel().getACCValue());
+        setAccTextField(new JTextField("" + getSubjectModel().getACCValue()));
         //acc.addActionListener( new ActionListener(){
 	    //    public void actionPerformed(ActionEvent accChange){
 		//        getSubjectModel().setACCValue(Short.valueOf(acc.getText()));
@@ -71,25 +104,25 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         //);
 
         JLabel counterLabel = new JLabel("Counter");
-        JTextField counter = new JTextField("" + getSubjectModel().getPCValue());
+        setPcTextField(new JTextField("" + getSubjectModel().getPCValue()));
 
-        // Add action listener to counter, 
+        // Add action listener to counter,
         // when enter is hit on the keyboard
         // PC is going to be stored using setPCValue()
 
         ActionListener setPcValue = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getSubjectModel().setPCValue(Short.valueOf(counter.getText()));
+                getSubjectModel().setPCValue(Short.valueOf(getPcTextField().getText()));
                 // pc is set to counter.getText()
             }
         };
-        counter.addActionListener(setPcValue);
+        getPcTextField().addActionListener(setPcValue);
 
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
-        JTextField nextInstruction = new JTextField(getSubjectModel().getNextInstruction());
-        nextInstruction.setEditable(false);
+        setNextInstructionTextField(new JTextField(getSubjectModel().getNextInstruction()));
+        getNextInstructionTextField().setEditable(false);
 
         GridLayout grid = new GridLayout(3,2);
 
@@ -102,11 +135,11 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         getPanel().setLayout(grid);
 
         getPanel().add(accLabel);
-        getPanel().add(acc);
+        getPanel().add(getAccTextField());
         getPanel().add(counterLabel);
-        getPanel().add(counter);
+        getPanel().add(getPcTextField());
         getPanel().add(nextInstructionLabel);
-        getPanel().add(nextInstruction);
+        getPanel().add(getNextInstructionTextField());
 
         //
         // Add the panel to the container
@@ -122,5 +155,10 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         // Set the text in the text fields to display the state of the machine, 
         // which includes ACC, Counter, Next Instruction
         //
+
+        getAccTextField().setText("" + getSubjectModel().getACCValue());
+        getPcTextField().setText("" + getSubjectModel().getPCValue());
+        getNextInstructionTextField().setText("" + getSubjectModel().getNextInstruction());
+
     }
 }
