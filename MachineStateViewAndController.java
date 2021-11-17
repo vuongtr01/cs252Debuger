@@ -97,8 +97,9 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         setAccTextField(new JTextField("" + getSubjectModel().getACCValue()));
         ActionListener setAccValue = new ActionListener(){
 	        public void actionPerformed(ActionEvent accChange){
+                getSubjectModel().resetDisplayContents();
 		        getSubjectModel().setACCValue(Short.valueOf(getAccTextField().getText()));
-		        
+
           }};
         getAccTextField().addActionListener(setAccValue);
 
@@ -112,6 +113,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         ActionListener setPcValue = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                getSubjectModel().resetDisplayContents();
                 getSubjectModel().setPCValue(Short.valueOf(getPcTextField().getText()));
                 // pc is set to counter.getText()
             }
