@@ -101,21 +101,22 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // and so we can store them too. Along with an event listener. Techincally
         // the table is already editable, but do we want to re-manually change it
         // so the event listener is built in and so that only certain cells are editable?
-        
-        for(int row = 0; row < 410; ++row){
-            myTable.setValueAt("Addr " + rowAddr, row, 0);
-            for(int col = 1; col < 21; ++col){
-                myTable.setValueAt("00", row, col);
-            }
-            rowAddr = rowAddr + 20;
-        }   
-        
-        // I have thought of maybe adding a for loop to resize column widths?
-        // I'm a little confused on the documentation for it though so I might want some
-        // help talking through it.
-        
-        // also, do we want to label the table? borders? anything to "style" it?
-        
+
+        int memoryValueIndex = 0;
+
+       // while(memoryValueIndex != 8192){
+            for(int row = 0; row < 410; ++row){
+                myTable.setValueAt("Addr " + rowAddr, row, 0);
+                for(int col = 1; col < 21; ++col){
+                    if(memoryValueIndex != 8192){
+                        myTable.setValueAt(getSubjectModel().getMemoryValue()[memoryValueIndex], row, col);
+                        ++memoryValueIndex;
+                    } 
+                    // else there is nothing left to populate table as all of the memory
+                    //has been entered into the table
+                }
+                rowAddr = rowAddr + 20;
+            } 
         
         myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane myScrollPane=new JScrollPane(myTable); 
@@ -132,8 +133,10 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
     public void update()
     {
         //
-        // Set the table to display all the memory bytes of the machine's memory
+        // Add cellEditorListoner to update memory per user input
         //
+
+       // myTable.addCellEditorListener()
         ;
     }
 }
