@@ -10,6 +10,7 @@ class ObservableVM252Machine extends SimpleObservable
     private boolean lastInstructionCausedHalt;
     private String myNextInstruction;
     private String [] myDisplayContents;
+    private int myExecutionSpeed;
 
     //
     // Accessors
@@ -47,6 +48,11 @@ class ObservableVM252Machine extends SimpleObservable
     public boolean getHaltStatus()
     {
         return lastInstructionCausedHalt;
+    }
+
+    public int getExecutionSpeed()
+    {
+        return myExecutionSpeed;
     }
 
     //
@@ -99,6 +105,11 @@ class ObservableVM252Machine extends SimpleObservable
        lastInstructionCausedHalt = other;
     }
 
+    private void setExecutionSpeed(int other)
+    {
+        myExecutionSpeed = other;
+    }
+
     //
     // Ctors
     //
@@ -114,6 +125,7 @@ class ObservableVM252Machine extends SimpleObservable
         setMemoryValue(new byte [8192]);
         setNextInstruction("");
         setDisplayContents(welcomeContents);
+        setExecutionSpeed(500);
     }
 
     ObservableVM252Machine(byte [] programEncoded)
@@ -130,6 +142,7 @@ class ObservableVM252Machine extends SimpleObservable
         setMemoryValue(VM252ArchitectureSpecifications.addProgramToMemory(memory, programEncoded));
         setNextInstruction("hello world");
         setDisplayContents(welcomeContents);
+        setExecutionSpeed(500);
     }
 
     public void runProgram()
@@ -213,6 +226,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                 case VM252ArchitectureSpecifications.JUMP_ON_ZERO_OPCODE -> {
 
+                    resetDisplayContents();
                     if (getACCValue() == 0) {
                         resetDisplayContents();
                         setPCValue(operand);
@@ -224,7 +238,7 @@ class ObservableVM252Machine extends SimpleObservable
                 case VM252ArchitectureSpecifications.JUMP_ON_POSITIVE_OPCODE -> {
 
                     resetDisplayContents();
-                        if (getACCValue() > 0) {
+                    if (getACCValue() > 0) {
                         setPCValue(operand);
                         setSuppressPcStatus(true);
                         }
@@ -280,7 +294,10 @@ class ObservableVM252Machine extends SimpleObservable
                     //
 
                         else
+                        {
+                            setDisplayContents(new String [] {"Running INPUT"});
                             setACCValue((short) input.nextInt());
+                        }
 
                     }
 

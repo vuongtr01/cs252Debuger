@@ -143,9 +143,22 @@ public class ButtonController extends JPanel
     {
         public void actionPerformed(ActionEvent event)
         {
-            while ( ! getModel().getHaltStatus())
+            ExecutionThread runThread = new ExecutionThread();
+            runThread.start();
+        }
+    }
+
+    private class ExecutionThread extends Thread{
+        @Override
+        public void run()
+        {
+
+            while( !getModel().getHaltStatus() )
             {
                 getModel().runProgram();
+                try{
+                    Thread.sleep(getModel().getExecutionSpeed());
+                }catch(Exception e){}
             }
         }
     }
