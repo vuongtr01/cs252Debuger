@@ -95,7 +95,16 @@ public class ButtonController extends JPanel
         ActionListener quitActListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                // close the current JFrame 
+                ((JFrame)myPanel.getTopLevelAncestor()).dispose();
+                // Create a new File Chooser
+                ObjectFileChooser newFile = new ObjectFileChooser();
+                // Run the FileChooser to create a new JFrame out of the new chosen file
+                newFile.ObjectFileChooser();
+                
+                // the file chooser will open 
+                // if no file was choosen to open
+                // the program will close
             }
         };
 
