@@ -127,6 +127,15 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         add(myScrollPane);
 
     }
+        //
+        // Somewhere this needs to be added for user input;
+        // use getSelectedRows() and getSelectedColumns() on myTable 
+       // both return an array of row and column numbers.
+       // maybe figure out how to use both to step through the table
+       // and retrieve updated values that need to be added to the memory
+       //
+       //
+
 
     @Override
     public void update()
