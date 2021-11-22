@@ -136,7 +136,12 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Add cellEditorListoner to update memory per user input
         //
 
-       // myTable.addCellEditorListener()
+        //
+       // use getSelectedRows() and getSelectedColumns() on myTable 
+       // both return an array of row and column numbers.
+       // maybe figure out how to use both to step through the table
+       // and retrieve updated values that need to be added to the memory
+       //
         ;
     }
 }
