@@ -103,7 +103,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
 
         int memoryValueIndex = 0;
 
-       // while(memoryValueIndex != 8192){
+       
             for(int row = 0; row < 410; ++row){
                 myTable.setValueAt("Addr " + rowAddr, row, 0);
                 for(int col = 1; col < 21; ++col){
@@ -132,10 +132,20 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
     public void update()
     {
         //
-        // Add cellEditorListoner to update memory per user input
+        // Re-loops through memoryValueIndex and updates value if there is any change 
+        // in byte array
         //
-
-       // myTable.addCellEditorListener()
+        int memoryValueIndex = 0;
+        for(int row = 0; row < 410; ++row){
+            for(int col = 1; col < 21; ++col){
+                if(memoryValueIndex != 8192){
+                    myTable.setValueAt(getSubjectModel().getMemoryValue()[memoryValueIndex], row, col);
+                    ++memoryValueIndex;
+                }
+                // else there is nothing left to populate table as all of the memory
+                //has been entered into the table
+            }
+        }
         ;
     }
 }
