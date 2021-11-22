@@ -80,16 +80,15 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Add the panel to the container
         //
 
-        
         //
         // Create table to display memory bytes
         //
-        
+
         myTable = new JTable(410, 21);
-        
+
         // Row address counter for labeling
         int rowAddr = 0;
-        
+
         // for loop that loops through every row, labels the addr
         // then another for loop that loops through every other cell
         // and inserts memory byte. Because we have no
@@ -111,22 +110,22 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                     if(memoryValueIndex != 8192){
                         myTable.setValueAt(getSubjectModel().getMemoryValue()[memoryValueIndex], row, col);
                         ++memoryValueIndex;
-                    } 
+                    }
                     // else there is nothing left to populate table as all of the memory
                     //has been entered into the table
                 }
                 rowAddr = rowAddr + 20;
-            } 
-        
+            }
+
         myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        JScrollPane myScrollPane=new JScrollPane(myTable); 
-        myScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
-        myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        JScrollPane myScrollPane=new JScrollPane(myTable);
+        myScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         myScrollPane.setBounds(0, 0, 300, 150);
-        
+
         setLayout(null);
         add(myScrollPane);
-        
+
     }
 
     @Override

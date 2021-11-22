@@ -67,7 +67,7 @@ public class ButtonController extends JPanel
         rCommand = new JButton(" r ");
         baLabel = new JLabel(" ba: ");
         textFieldForba = new JTextField("enter value for ba", 10);
-        stop = new JButton("Stop");
+        stop = new JButton("Pause");
         resume = new JButton("Resume");
         increaseSpeed = new JButton("Increase Speed");
         decreaseSpeed = new JButton ("Decrease Speed");
@@ -95,14 +95,14 @@ public class ButtonController extends JPanel
         ActionListener quitActListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // close the current JFrame 
+                // close the current JFrame
                 ((JFrame)myPanel.getTopLevelAncestor()).dispose();
                 // Create a new File Chooser
                 ObjectFileChooser newFile = new ObjectFileChooser();
                 // Run the FileChooser to create a new JFrame out of the new chosen file
                 newFile.ObjectFileChooser();
-                
-                // the file chooser will open 
+
+                // the file chooser will open
                 // if no file was choosen to open
                 // the program will close
             }
@@ -116,6 +116,22 @@ public class ButtonController extends JPanel
 
         RunButtonActionListener runListener = new RunButtonActionListener();
         rCommand.addActionListener(runListener);
+
+        //
+        // Add action listener for increase speed and decrease speed command
+        //
+
+        ChangeSpeedListener changeSpeedListener = new ChangeSpeedListener();
+        increaseSpeed.addActionListener(changeSpeedListener);
+        decreaseSpeed.addActionListener(changeSpeedListener);
+
+        //
+        // Add action listener for stop and resume command
+        //
+
+        ChangeRunningStatus changeRunningStatus = new ChangeRunningStatus();
+        stop.addActionListener(changeRunningStatus);
+        resume.addActionListener(changeRunningStatus);
 
         // Add buttons to toolbar
 
@@ -157,16 +173,52 @@ public class ButtonController extends JPanel
         }
     }
 
+    private class ChangeSpeedListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            if (event.getSource() == increaseSpeed)
+            {
+                int currentSpeed = getModel().getExecutingSpeed();
+                getModel().setExecutingSpeed(currentSpeed < 0 ? 0 : (currentSpeed - 500));
+            }else if (event.getSource() == decreaseSpeed)
+            {
+                int currentSpeed = getModel().getExecutingSpeed();
+                getModel().setExecutingSpeed(currentSpeed + 500);
+            }else
+                ; // do nothing
+        }
+    }
+
+    private class ChangeRunningStatus implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            if (event.getSource() == stop)
+                getModel().setPauseStatus(true);
+            else if (event.getSource() == resume)
+                getModel().setPauseStatus(false);
+            else
+                ; //do nothing
+        }
+    }
+
     private class ExecutionThread extends Thread{
         @Override
         public void run()
         {
-
+            //
+            // execute obj file in another thread
+            //
             while( !getModel().getHaltStatus() )
             {
-                getModel().runProgram();
+                if(getModel().getPauseStatus())
+                    ; // do nothing
+                else
+                    getModel().runProgram();
+
                 try{
-                    Thread.sleep(getModel().getExecutionSpeed());
+                    Thread.sleep(getModel().getExecutingSpeed());
                 }catch(Exception e){}
             }
         }
