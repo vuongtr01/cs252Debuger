@@ -118,6 +118,13 @@ public class ButtonController extends JPanel
         rCommand.addActionListener(runListener);
 
         //
+        // Add action listener for n command button
+        //
+
+        RunStepListener runStepListener = new RunStepListener();
+        nCommand.addActionListener(runStepListener);
+
+        //
         // Add action listener for increase speed and decrease speed command
         //
 
@@ -164,6 +171,19 @@ public class ButtonController extends JPanel
         add(getPanel());
     }
 
+    private class RunStepListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            if(getModel().getHaltStatus())
+            {
+                getModel().setDisplayContents(new String [] {"Program stopped"});
+            }else
+            {
+                getModel().runProgram();
+            }
+        }
+    }
     private class RunButtonActionListener implements ActionListener
     {
         public void actionPerformed(ActionEvent event)
