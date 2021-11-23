@@ -284,7 +284,7 @@ public class VM252ArchitectureSpecifications
         //     O(1)
         //
 
-        public static void storeIntegerValue(
+        public static byte[] storeIntegerValue(
             byte [] memory,
             short address,
             short dataValue
@@ -295,6 +295,8 @@ public class VM252ArchitectureSpecifications
 
             memory[ address ] = dataBytes[ 0 ];
             memory[ nextMemoryAddress(address) ] = dataBytes[ 1 ];
+
+            return memory;
 
             }
 

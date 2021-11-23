@@ -213,7 +213,8 @@ class ObservableVM252Machine extends SimpleObservable
                 case VM252ArchitectureSpecifications.STORE_OPCODE -> {
 
                     resetDisplayContents();
-                    VM252ArchitectureSpecifications.storeIntegerValue(getMemoryValue(), operand, getACCValue());
+                    byte [] newMemory = VM252ArchitectureSpecifications.storeIntegerValue(getMemoryValue(), operand, getACCValue());
+                    setMemoryValue(newMemory);
                     setDisplayContents(new String [] {"STORE " + operand});
 
                     }
