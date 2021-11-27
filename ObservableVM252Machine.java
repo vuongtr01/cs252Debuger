@@ -12,6 +12,7 @@ class ObservableVM252Machine extends SimpleObservable
     private String [] myDisplayContents;
     private int myExecutingSpeed;
     private boolean myPauseStatus;
+    private short myBreakPoint;
 
     //
     // Accessors
@@ -59,6 +60,11 @@ class ObservableVM252Machine extends SimpleObservable
     public boolean getPauseStatus()
     {
         return myPauseStatus;
+    }
+
+    public short getBreakPoint()
+    {
+        return myBreakPoint;
     }
 
     //
@@ -121,6 +127,11 @@ class ObservableVM252Machine extends SimpleObservable
         myPauseStatus = other;
     }
 
+    public void setBreakPoint(short other)
+    {
+        myBreakPoint = other;
+    }
+
     //
     // Ctors
     //
@@ -138,6 +149,7 @@ class ObservableVM252Machine extends SimpleObservable
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
+        setBreakPoint((short)8192);
     }
 
     ObservableVM252Machine(byte [] programEncoded)
@@ -156,6 +168,7 @@ class ObservableVM252Machine extends SimpleObservable
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
+        setBreakPoint((short)8192);
     }
 
     public void runProgram()
