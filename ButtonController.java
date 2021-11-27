@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Scanner;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -66,7 +67,7 @@ public class ButtonController extends JPanel
         qCommand = new JButton(" q ");
         rCommand = new JButton(" r ");
         baLabel = new JLabel(" ba: ");
-        textFieldForba = new JTextField("enter value for ba", 10);
+        textFieldForba = new JTextField("", 10);
         stop = new JButton("Pause");
         resume = new JButton("Resume");
         increaseSpeed = new JButton("Increase Speed");
@@ -140,6 +141,13 @@ public class ButtonController extends JPanel
         stop.addActionListener(changeRunningStatus);
         resume.addActionListener(changeRunningStatus);
 
+        //
+        // Add action Listener for ba text field
+        //
+
+        setBreakPointListener baListener = new setBreakPointListener();
+        textFieldForba.addActionListener(baListener);
+
         // Add buttons to toolbar
 
         tb.setFloatable(false);
@@ -169,6 +177,23 @@ public class ButtonController extends JPanel
         // Add the panel to the container
 
         add(getPanel());
+    }
+
+    private class setBreakPointListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            Scanner breakPointPositionScanner =
+                new Scanner(textFieldForba.getText());
+
+            short breakPointPosition =
+                breakPointPositionScanner.hasNextShort()
+                    ?(short) Math.max(0, Math.min(8191, breakPointPositionScanner.nextShort()))
+                    : (short) 0;
+
+            getModel().setBreakPoint(breakPointPosition);
+
+        }
     }
 
     private class RunStepListener implements ActionListener
@@ -230,11 +255,15 @@ public class ButtonController extends JPanel
             //
             // execute obj file in another thread
             //
-            while( !getModel().getHaltStatus() )
+            while( !getModel().getHaltStatus() || getModel().getBreakPoint() < getModel().getPCValue())
             {
                 if(getModel().getPauseStatus())
                     ; // do nothing
-                else
+                else if (getModel().getBreakPoint() == getModel().getPCValue())
+                {
+                    getModel().runProgram();
+                    getModel().setDisplayContents(new String [] {"Hit breakpoint at address " + getModel().getBreakPoint() });
+                }else
                     getModel().runProgram();
 
                 try{

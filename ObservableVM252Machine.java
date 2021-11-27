@@ -12,6 +12,7 @@ class ObservableVM252Machine extends SimpleObservable
     private String [] myDisplayContents;
     private int myExecutingSpeed;
     private boolean myPauseStatus;
+    private short myBreakPoint;
 
     //
     // Accessors
@@ -59,6 +60,11 @@ class ObservableVM252Machine extends SimpleObservable
     public boolean getPauseStatus()
     {
         return myPauseStatus;
+    }
+
+    public short getBreakPoint()
+    {
+        return myBreakPoint;
     }
 
     //
@@ -119,6 +125,11 @@ class ObservableVM252Machine extends SimpleObservable
     public void setPauseStatus(boolean other)
     {
         myPauseStatus = other;
+    }
+
+    public void setBreakPoint(short other)
+    {
+        myBreakPoint = other;
     }
 
     //
