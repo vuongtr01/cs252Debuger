@@ -149,6 +149,7 @@ class ObservableVM252Machine extends SimpleObservable
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
+        setBreakPoint((short)8192);
     }
 
     ObservableVM252Machine(byte [] programEncoded)
@@ -167,6 +168,7 @@ class ObservableVM252Machine extends SimpleObservable
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
+        setBreakPoint((short)8192);
     }
 
     public void runProgram()

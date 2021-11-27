@@ -183,6 +183,7 @@ public class ButtonController extends JPanel
     {
         public void actionPerformed(ActionEvent event)
         {
+            System.out.println("Running break point listener");
             Scanner breakPointPositionScanner =
                 new Scanner(textFieldForba.getText());
 
@@ -192,6 +193,7 @@ public class ButtonController extends JPanel
                     : (short) 0;
 
             getModel().setBreakPoint(breakPointPosition);
+            getModel().setDisplayContents(new String[] {"set breakpoint at address " + breakPointPosition});
 
         }
     }
@@ -255,7 +257,8 @@ public class ButtonController extends JPanel
             //
             // execute obj file in another thread
             //
-            while( !getModel().getHaltStatus() || getModel().getBreakPoint() < getModel().getPCValue())
+            boolean hitBreakPoint = false;
+            while( !getModel().getHaltStatus() && !hitBreakPoint)
             {
                 if(getModel().getPauseStatus())
                     ; // do nothing
@@ -263,6 +266,7 @@ public class ButtonController extends JPanel
                 {
                     getModel().runProgram();
                     getModel().setDisplayContents(new String [] {"Hit breakpoint at address " + getModel().getBreakPoint() });
+                    hitBreakPoint = true;
                 }else
                     getModel().runProgram();
 
