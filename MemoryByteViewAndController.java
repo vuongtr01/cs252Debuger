@@ -89,18 +89,6 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Row address counter for labeling
         int rowAddr = 0;
 
-        // for loop that loops through every row, labels the addr
-        // then another for loop that loops through every other cell
-        // and inserts memory byte. Because we have no
-        // file to run off of, we are displaying everything as empty, aka 00
-        //
-        // When we get to using the commands with the table, we will need
-        // getColumn(), getRow(), getValue(), setValue(), and maybe a few others
-        // all set up in the model so that we can allow user to edit values
-        // and so we can store them too. Along with an event listener. Techincally
-        // the table is already editable, but do we want to re-manually change it
-        // so the event listener is built in and so that only certain cells are editable?
-
         int memoryValueIndex = 0;
 
        
@@ -108,7 +96,20 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                 myTable.setValueAt("Addr " + rowAddr, row, 0);
                 for(int col = 1; col < 21; ++col){
                     if(memoryValueIndex != 8192){
-                        myTable.setValueAt(getSubjectModel().getMemoryValue()[memoryValueIndex], row, col);
+
+                        //
+                        // Convert each byte as we loop through to an int and mask it 
+                        // so that we can convert into a hex string
+                        //
+
+                        int byteToInt  = (int) getSubjectModel().getMemoryValue()[memoryValueIndex] & 0xff;
+                        String hexValue = Integer.toHexString(byteToInt);
+
+                        // Pads hexValue with a zero if half a hex
+                        if( hexValue.length() % 2 == 1){
+                            hexValue = "0" + hexValue;
+                        }
+                        myTable.setValueAt(hexValue, row, col);
                         ++memoryValueIndex;
                     }
                     // else there is nothing left to populate table as all of the memory
@@ -144,11 +145,23 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Re-loops through memoryValueIndex and updates value if there is any change 
         // in byte array
         //
+        
         int memoryValueIndex = 0;
         for(int row = 0; row < 410; ++row){
             for(int col = 1; col < 21; ++col){
                 if(memoryValueIndex != 8192){
-                    myTable.setValueAt(getSubjectModel().getMemoryValue()[memoryValueIndex], row, col);
+                    
+                    // Convert each byte as we loop through to an int and mask it 
+                    // so that we can convert into a hex string
+
+                    int byteToInt  = (int) getSubjectModel().getMemoryValue()[memoryValueIndex] & 0xff;
+                    String hexValue = Integer.toHexString(byteToInt);
+
+                    // Pads hexValue with a zero if half a hex
+                    if( hexValue.length() % 2 == 1){
+                        hexValue = "0" + hexValue;
+                    }
+                    myTable.setValueAt(hexValue, row, col);
                     ++memoryValueIndex;
                 }
                 // else there is nothing left to populate table as all of the memory
