@@ -138,16 +138,15 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         setNextInstructionTextField(new JTextField(getSubjectModel().getNextInstruction()));
         getNextInstructionTextField().setEditable(false);
 
-        
+
         JLabel inputLabel = new JLabel("Input");
         setInputTextField(new JTextField("" + getSubjectModel().getInputValue()));
         ActionListener setInputValue = new ActionListener(){
 	        public void actionPerformed(ActionEvent inputChange){
                 getSubjectModel().resetDisplayContents();
 		        getSubjectModel().setInputValue(Short.valueOf(getInputTextField().getText()));
-                getSubjectModel().setDisplayContents(new String[] {"Set Input value to " + getInputTextField().getText()});
-                //getSubjectModel().getSemaphore().release();
                 getSubjectModel().setInputReady(true);
+                //getSubjectModel().getSemaphore().release();
                 //notifyAll();
           }};
         getInputTextField().addActionListener(setInputValue);

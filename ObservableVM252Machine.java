@@ -356,12 +356,13 @@ class ObservableVM252Machine extends SimpleObservable
                     //     from the standard input stream
                     //
 
-                        
                         setDisplayContents(new String [] {"Running INPUT"});
                         while (!getInputReady())
                             resetDisplayContents();
 
                         setACCValue(getInputValue());
+                        setDisplayContents(new String[] {"Set Input value to " + getInputValue()});
+
                         setInputReady(false);  
 
                     }
