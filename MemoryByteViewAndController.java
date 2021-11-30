@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent; 
+import javax.swing.event.ListSelectionListener; 
+import java.lang.Integer;
 
 public class MemoryByteViewAndController extends JPanel implements SimpleObserver
 {
@@ -119,7 +122,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
             }
 
         myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        JScrollPane myScrollPane=new JScrollPane(myTable);
+        JScrollPane myScrollPane = new JScrollPane(myTable);
         myScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         myScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         myScrollPane.setBounds(0, 0, 300, 150);
@@ -127,15 +130,22 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         setLayout(null);
         add(myScrollPane);
 
+        myTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                int changedRow = myTable.getSelectedRow();
+                int changedColumn = myTable.getSelectedColumn();
+                String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
+                int hexToInt = Integer.decode(hexValue);
+                int byteIndexToChange = changedRow * 20 + changedColumn;
+                byte intToByte = (byte) hexToInt;
+
+                getSubjectModel().getMemoryValue()[byteIndexToChange] = intToByte;
+
+            }
+        });
+
     }
-        //
-        // Somewhere this needs to be added for user input;
-        // use getSelectedRows() and getSelectedColumns() on myTable 
-       // both return an array of row and column numbers.
-       // maybe figure out how to use both to step through the table
-       // and retrieve updated values that need to be added to the memory
-       //
-       //
+
 
 
     @Override
@@ -145,7 +155,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Re-loops through memoryValueIndex and updates value if there is any change 
         // in byte array
         //
-        
+
         int memoryValueIndex = 0;
         for(int row = 0; row < 410; ++row){
             for(int col = 1; col < 21; ++col){
