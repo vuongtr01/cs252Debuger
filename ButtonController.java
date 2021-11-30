@@ -202,10 +202,13 @@ public class ButtonController extends JPanel
     {
         public void actionPerformed(ActionEvent event)
         {
-            // get the next instruction of myModel to display
-            // at next instruction text field
-            // when n is pressed
-            myModel.setNextInstruction(myModel.getNextInst());
+            if(getModel().getHaltStatus())
+            {
+                getModel().setDisplayContents(new String [] {"Program stopped"});
+            }else
+            {
+                getModel().runProgram();
+            }
         }
     }
     private class RunButtonActionListener implements ActionListener

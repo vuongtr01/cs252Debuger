@@ -8,7 +8,6 @@ class ObservableVM252Machine extends SimpleObservable
     private byte [] myMemory;
     private boolean suppressPcIncrement;
     private boolean lastInstructionCausedHalt;
-    private String myNextInstruction;
     private String [] myDisplayContents;
     private int myExecutingSpeed;
     private boolean myPauseStatus;
@@ -36,11 +35,6 @@ class ObservableVM252Machine extends SimpleObservable
     public byte [] getMemoryValue()
     {
         return myMemory;
-    }
-
-    public String getNextInstruction()
-    {
-        return myNextInstruction;
     }
 
     public String [] getDisplayContents()
@@ -82,7 +76,7 @@ class ObservableVM252Machine extends SimpleObservable
         nextInst = other;
         announceChange();
     }
-    
+
     public void setACCValue(short other)
     {
         myACC = other;
@@ -98,12 +92,6 @@ class ObservableVM252Machine extends SimpleObservable
     public void setMemoryValue(byte [] other)
     {
         myMemory = other;
-        announceChange();
-    }
-
-    public void setNextInstruction(String other)
-    {
-        myNextInstruction = other;
         announceChange();
     }
 
@@ -157,11 +145,11 @@ class ObservableVM252Machine extends SimpleObservable
         setACCValue((short)0);
         setPCValue((short)0);
         setMemoryValue(new byte [8192]);
-        setNextInstruction("");
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
         setBreakPoint((short)8192);
+        setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
     }
 
     ObservableVM252Machine(byte [] programEncoded)
@@ -176,11 +164,11 @@ class ObservableVM252Machine extends SimpleObservable
         setACCValue((short)0);
         setPCValue((short) 0);
         setMemoryValue(VM252ArchitectureSpecifications.addProgramToMemory(memory, programEncoded));
-        setNextInstruction("Press n");
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
         setBreakPoint((short)8192);
+        setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
     }
 
     public void runProgram()
@@ -389,83 +377,7 @@ class ObservableVM252Machine extends SimpleObservable
                             % VM252ArchitectureSpecifications.numberOfMemoryBytes)
                         );
             }
-
-
-            // working on getting the next instruction
-            // now the next PC value is update
-            // decoded the instruction on this value and check what is is using VM252ArchitectureSpecifications
-            // update the next intruction "nextInst" according to what the value is 
-
-            byte [] encodednextInstruction
-                = VM252ArchitectureSpecifications.fetchBytePair(getMemoryValue(), getPCValue());
-
-            int [] decodednextInstruction
-                = VM252ArchitectureSpecifications.decodedInstructionComponents(encodednextInstruction);
-            int nextOpcode = decodednextInstruction[ 0 ];
-
-            short nextOperand
-                = decodednextInstruction.length == 2
-                    ? ((short) (decodednextInstruction[ 1 ]))
-                    : 0;
-
-            switch (nextOpcode) {
-
-                case VM252ArchitectureSpecifications.LOAD_OPCODE -> {
-                    setNextInst(new String("LOAD "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.SET_OPCODE -> {
-                    setNextInst(new String("SET "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.STORE_OPCODE -> {
-                    setNextInst(new String("STORE "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.ADD_OPCODE -> {
-                    setNextInst(new String("ADD "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.SUBTRACT_OPCODE -> {
-                    setNextInst(new String("SUBTRACT "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.JUMP_OPCODE -> {
-                    setNextInst(new String("JUMP "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.JUMP_ON_ZERO_OPCODE -> {
-                    setNextInst(new String("JUMZ "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.JUMP_ON_POSITIVE_OPCODE -> {
-                    setNextInst(new String("JUMPP "+nextOperand));
-                    }
-
-                case VM252ArchitectureSpecifications.INPUT_OPCODE -> {
-                        if (getHaltStatus()) {
-                            setNextInst(new String("EOF reading input;  machine halts"));
-                            }
-                        else
-                        {
-                            setNextInst(new String("Running Input"));
-                        }
-                    }
-
-                case VM252ArchitectureSpecifications.OUTPUT_OPCODE -> {
-                    setNextInst(new String("OUTPUT "+getACCValue()));
-                    }
-
-                case VM252ArchitectureSpecifications.NO_OP_OPCODE -> {
-                    setNextInst(new String("Doing Nothing"));
-                    }
-
-                case VM252ArchitectureSpecifications.STOP_OPCODE -> {
-                    setNextInst(new String("Program Stopped"));
-                    }
-
-                }
-
+            setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
         }
 
 }

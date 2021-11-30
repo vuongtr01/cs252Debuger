@@ -688,4 +688,73 @@ public class VM252ArchitectureSpecifications
                     return memory;
         }
 
+        public static String instructionToString(byte[] memory, short programCounter)
+        {
+            String instructionString = "";
+            byte [] encodedInstruction
+                = fetchBytePair(memory, programCounter);
+
+            int [] decodedInstruction
+                = decodedInstructionComponents(encodedInstruction);
+            int opcode = decodedInstruction[ 0 ];
+
+            short operand
+                = decodedInstruction.length == 2
+                    ? ((short) (decodedInstruction[ 1 ]))
+                    : 0;
+            switch (opcode) {
+
+                case LOAD_OPCODE -> {
+                    instructionString = "LOAD" + operand;
+                    }
+
+                case SET_OPCODE -> {
+                    instructionString = "SET" + operand;
+                    }
+
+                case STORE_OPCODE -> {
+                    instructionString = "STORE" + operand;
+                    }
+
+                case ADD_OPCODE -> {
+                    instructionString = "Add" + operand;
+                    }
+
+                case SUBTRACT_OPCODE -> {
+                    instructionString = "Subtract" + operand;
+                    }
+
+                case JUMP_OPCODE -> {
+                    instructionString = "Jump" + operand;
+                    }
+
+                case JUMP_ON_ZERO_OPCODE -> {
+                    instructionString = "Jumpz" + operand;
+                    }
+
+                case JUMP_ON_POSITIVE_OPCODE -> {
+                    instructionString = "Jumpp" + operand;
+                    }
+
+                case INPUT_OPCODE -> {
+                    instructionString = "Input";
+                    }
+
+                case OUTPUT_OPCODE -> {
+                    instructionString = "Output";
+                    }
+
+                case NO_OP_OPCODE -> {
+                    instructionString = "Noop";
+                    }
+
+                case STOP_OPCODE -> {
+                    instructionString = "Stop";
+                    }
+
+                }
+            return instructionString;
+
+        }
+
     }
