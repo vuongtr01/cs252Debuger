@@ -202,13 +202,8 @@ public class ButtonController extends JPanel
     {
         public void actionPerformed(ActionEvent event)
         {
-            if(getModel().getHaltStatus())
-            {
-                getModel().setDisplayContents(new String [] {"Program stopped"});
-            }else
-            {
-                getModel().runProgram();
-            }
+            StepExecutionThread runStepThread = new StepExecutionThread();
+            runStepThread.start();
         }
     }
     private class RunButtonActionListener implements ActionListener
@@ -273,6 +268,23 @@ public class ButtonController extends JPanel
                 try{
                     Thread.sleep(getModel().getExecutingSpeed());
                 }catch(Exception e){}
+            }
+        }
+    }
+
+    private class StepExecutionThread extends Thread{
+        @Override
+        public void run()
+        {
+            //
+            // execute obj file in another thread
+            //
+            if(getModel().getHaltStatus())
+            {
+                getModel().setDisplayContents(new String [] {"Program stopped"});
+            }else
+            {
+                getModel().runProgram();
             }
         }
     }

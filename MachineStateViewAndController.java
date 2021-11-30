@@ -11,6 +11,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private JTextField myAccTextField;
     private JTextField myPcTextField;
     private JTextField myNextInstructionTextField;
+    private JTextField myInputTextField;
 
     private ObservableVM252Machine mySubjectModel;
 
@@ -41,6 +42,11 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private JTextField getNextInstructionTextField()
     {
         return myNextInstructionTextField;
+    }
+
+    private JTextField getInputTextField()
+    {
+        return myInputTextField;
     }
 
     //
@@ -79,6 +85,11 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
     private void setNextInstructionTextField( JTextField other )
     {
         myNextInstructionTextField = other;
+    }
+
+    private void setInputTextField( JTextField other )
+    {
+        myInputTextField = other;
     }
 
     //
@@ -127,7 +138,21 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         setNextInstructionTextField(new JTextField(getSubjectModel().getNextInst()));
         getNextInstructionTextField().setEditable(false);
 
-        GridLayout grid = new GridLayout(3,2);
+
+        JLabel inputLabel = new JLabel("Input");
+        setInputTextField(new JTextField("" + getSubjectModel().getInputValue()));
+        ActionListener setInputValue = new ActionListener(){
+	        public void actionPerformed(ActionEvent inputChange){
+                getSubjectModel().resetDisplayContents();
+		        getSubjectModel().setInputValue(Short.valueOf(getInputTextField().getText()));
+                getSubjectModel().setInputReady(true);
+                //getSubjectModel().getSemaphore().release();
+                //notifyAll();
+          }};
+        getInputTextField().addActionListener(setInputValue);
+
+
+        GridLayout grid = new GridLayout(4,2);
 
         //
         // Create a panel to display the state of the machine model
@@ -143,6 +168,9 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         getPanel().add(getPcTextField());
         getPanel().add(nextInstructionLabel);
         getPanel().add(getNextInstructionTextField());
+        getPanel().add(inputLabel);
+        getPanel().add(getInputTextField());
+
 
         //
         // Add the panel to the container
