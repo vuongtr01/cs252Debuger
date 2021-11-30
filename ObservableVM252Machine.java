@@ -7,17 +7,22 @@ class ObservableVM252Machine extends SimpleObservable
     private byte [] myMemory;
     private boolean suppressPcIncrement;
     private boolean lastInstructionCausedHalt;
-    private String myNextInstruction;
     private String [] myDisplayContents;
     private int myExecutingSpeed;
     private boolean myPauseStatus;
     private short myBreakPoint;
     private short myInput;
     private boolean inputReady = false;
+    private String nextInst;
 
     //
     // Accessors
     //
+    public String getNextInst()
+    {
+        return nextInst;
+    }
+
     public short getACCValue()
     {
         return myACC;
@@ -37,11 +42,6 @@ class ObservableVM252Machine extends SimpleObservable
     public byte [] getMemoryValue()
     {
         return myMemory;
-    }
-
-    public String getNextInstruction()
-    {
-        return myNextInstruction;
     }
 
     public String [] getDisplayContents()
@@ -88,6 +88,12 @@ class ObservableVM252Machine extends SimpleObservable
     // Mutators
     //
 
+    public void setNextInst(String other)
+    {
+        nextInst = other;
+        announceChange();
+    }
+
     public void setACCValue(short other)
     {
         myACC = other;
@@ -109,12 +115,6 @@ class ObservableVM252Machine extends SimpleObservable
     public void setMemoryValue(byte [] other)
     {
         myMemory = other;
-        announceChange();
-    }
-
-    public void setNextInstruction(String other)
-    {
-        myNextInstruction = other;
         announceChange();
     }
 
@@ -173,11 +173,11 @@ class ObservableVM252Machine extends SimpleObservable
         setACCValue((short)0);
         setPCValue((short)0);
         setMemoryValue(new byte [8192]);
-        setNextInstruction("");
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
         setBreakPoint((short)8192);
+        setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
     }
 
     ObservableVM252Machine(byte [] programEncoded)
@@ -192,11 +192,11 @@ class ObservableVM252Machine extends SimpleObservable
         setACCValue((short)0);
         setPCValue((short) 0);
         setMemoryValue(VM252ArchitectureSpecifications.addProgramToMemory(memory, programEncoded));
-        setNextInstruction("hello world");
         setDisplayContents(welcomeContents);
         setExecutingSpeed(500);
         setPauseStatus(false);
         setBreakPoint((short)8192);
+        setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
     }
 
     public void runProgram()
@@ -408,7 +408,7 @@ class ObservableVM252Machine extends SimpleObservable
                             % VM252ArchitectureSpecifications.numberOfMemoryBytes)
                         );
             }
-
+            setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
         }
 
 }

@@ -135,7 +135,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 
 
         JLabel nextInstructionLabel = new JLabel("Next Instruction");
-        setNextInstructionTextField(new JTextField(getSubjectModel().getNextInstruction()));
+        setNextInstructionTextField(new JTextField(getSubjectModel().getNextInst()));
         getNextInstructionTextField().setEditable(false);
 
 
@@ -189,7 +189,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
 
         getAccTextField().setText("" + getSubjectModel().getACCValue());
         getPcTextField().setText("" + getSubjectModel().getPCValue());
-        getNextInstructionTextField().setText("" + getSubjectModel().getNextInstruction());
+        getNextInstructionTextField().setText("" + getSubjectModel().getNextInst());
 
     }
 }
