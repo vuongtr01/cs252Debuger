@@ -141,12 +141,15 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                 // This makes sure that user didn't change addr part of table
                 if (changedColumn != 0){
                     String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
-                    // decode seems to be working for me, I couldn't get Long.parseLong to work for some reason?
-                    // maybe need to try Integer.parseInt w/ same parameters as ^
-                    int hexToInt = Integer.decode(hexValue);
+                    System.out.println(hexValue);
+                    // I couldn't get Long.parseLong to work for some reason? I found something else that seems to work
+                    int hexToInt = Integer.parseInt(hexValue, 16);
+                    System.out.println(hexToInt);
                     int byteIndexToChange = changedRow * 20 + changedColumn;
                     byte intToByte = (byte) hexToInt;
+                    System.out.println(intToByte);
                     getSubjectModel().getMemoryValue()[byteIndexToChange] = intToByte;
+                    System.out.println(getSubjectModel().getMemoryValue()[byteIndexToChange]);
                 }
                 else{
 
@@ -154,7 +157,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                     int rowAddr = changedRow * 20;
                     myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
                 }
-
+                
                 
 
             }
