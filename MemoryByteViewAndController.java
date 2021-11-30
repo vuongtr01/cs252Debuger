@@ -130,16 +130,32 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         setLayout(null);
         add(myScrollPane);
 
+
+        // Not done, want someone else to have a look at my code because I don't think it works properly
+        // but I don't know what else to do to fix it at this point.
+
         myTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
                 int changedRow = myTable.getSelectedRow();
                 int changedColumn = myTable.getSelectedColumn();
-                String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
-                int hexToInt = Integer.decode(hexValue);
-                int byteIndexToChange = changedRow * 20 + changedColumn;
-                byte intToByte = (byte) hexToInt;
+                // This makes sure that user didn't change addr part of table
+                if (changedColumn != 0){
+                    String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
+                    // decode seems to be working for me, I couldn't get Long.parseLong to work for some reason?
+                    // maybe need to try Integer.parseInt w/ same parameters as ^
+                    int hexToInt = Integer.decode(hexValue);
+                    int byteIndexToChange = changedRow * 20 + changedColumn;
+                    byte intToByte = (byte) hexToInt;
+                    getSubjectModel().getMemoryValue()[byteIndexToChange] = intToByte;
+                }
+                else{
 
-                getSubjectModel().getMemoryValue()[byteIndexToChange] = intToByte;
+                    // This should override user if they try to change anything in column 0
+                    int rowAddr = changedRow * 20;
+                    myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
+                }
+
+                
 
             }
         });
