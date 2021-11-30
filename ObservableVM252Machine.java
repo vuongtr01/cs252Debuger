@@ -1,5 +1,4 @@
 import vm252architecturespecifications.VM252ArchitectureSpecifications;
-import java.util.Scanner;
 
 class ObservableVM252Machine extends SimpleObservable
 {
@@ -14,6 +13,7 @@ class ObservableVM252Machine extends SimpleObservable
     private boolean myPauseStatus;
     private short myBreakPoint;
     private short myInput;
+    private boolean inputReady = false;
 
     //
     // Accessors
@@ -72,6 +72,16 @@ class ObservableVM252Machine extends SimpleObservable
     public short getBreakPoint()
     {
         return myBreakPoint;
+    }
+
+    // public Semaphore getSemaphore()
+    // {
+    //     return semaphore;
+    // }
+
+    public boolean getInputReady()
+    {
+        return inputReady;
     }
 
     //
@@ -145,6 +155,11 @@ class ObservableVM252Machine extends SimpleObservable
         myBreakPoint = other;
     }
 
+    public void setInputReady(boolean other)
+    {
+        inputReady = other;
+    }
+
     //
     // Ctors
     //
@@ -184,7 +199,7 @@ class ObservableVM252Machine extends SimpleObservable
         setBreakPoint((short)8192);
     }
 
-    public synchronized void runProgram()
+    public void runProgram()
     {
         // Scanner input = new Scanner(System.in);
 
@@ -341,15 +356,13 @@ class ObservableVM252Machine extends SimpleObservable
                     //     from the standard input stream
                     //
 
-                            
-                        setDisplayContents(new String [] {"Running INPUT"});
-                        try {
-                            wait();
-                        } catch(InterruptedException e){
-                            ;
-                        }
-                        setACCValue(getInputValue());
                         
+                        setDisplayContents(new String [] {"Running INPUT"});
+                        while (!getInputReady())
+                            resetDisplayContents();
+
+                        setACCValue(getInputValue());
+                        setInputReady(false);  
 
                     }
 
