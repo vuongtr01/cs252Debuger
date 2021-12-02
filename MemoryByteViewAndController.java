@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent; 
-import javax.swing.event.ListSelectionListener; 
 import java.lang.Integer;
+
 
 public class MemoryByteViewAndController extends JPanel implements SimpleObserver
 {
@@ -11,12 +10,12 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
     private JPanel myPanel;
     private ObservableVM252Machine mySubjectModel;
     private JLabel myNotes;
-    private JTable myTable;
+    final JTable myTable;
 
     //
     // Accessors
     //
-
+      
     private JPanel getPanel()
     {
         return myPanel;
@@ -68,6 +67,8 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
     {
         this(null);
     }
+
+   
 
     public MemoryByteViewAndController(ObservableVM252Machine initialMachine)
     {
@@ -133,34 +134,44 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
 
         // Not done, want someone else to have a look at my code because I don't think it works properly
         // but I don't know what else to do to fix it at this point.
+        
 
-        myTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
+        myTable.addFocusListener( new FocusListener(){
+            public void focusGained(FocusEvent e){
                 int changedRow = myTable.getSelectedRow();
                 int changedColumn = myTable.getSelectedColumn();
-                // This makes sure that user didn't change addr part of table
-                if (changedColumn != 0){
-                    String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
-                    System.out.println(hexValue);
-                    // I couldn't get Long.parseLong to work for some reason? I found something else that seems to work
-                    int hexToInt = Integer.parseInt(hexValue, 16);
-                    System.out.println(hexToInt);
-                    int byteIndexToChange = changedRow * 20 + changedColumn;
-                    byte intToByte = (byte) hexToInt;
-                    System.out.println(intToByte);
-                    getSubjectModel().getMemoryValue()[byteIndexToChange] = intToByte;
-                    System.out.println(getSubjectModel().getMemoryValue()[byteIndexToChange]);
-                }
-                else{
-
-                    // This should override user if they try to change anything in column 0
-                    int rowAddr = changedRow * 20;
-                    myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
-                }
-                
-                
-
+                int byteIndex = changedRow * 20 + changedColumn;
+                // I want to implement the next line of code somehow because the only problem that is happening now is 
+                // that even though the user hasn't had a chanse to change anything it runs this code.
+                //if ((int) myTable.getValueAt(changedRow, changedColumn) != (int) getSubjectModel().getMemoryValue()[byteIndex]){
+                   
+                    // This makes sure that user didn't change addr part of table
+                    if (changedColumn != 0 ){
+                        String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
+                        System.out.println(hexValue);
+                        // I couldn't get Long.parseLong to work for some reason? I found something else that seems to work
+                        int hexToInt = Integer.parseInt(hexValue, 16);
+                        System.out.println(hexToInt);
+                        byte intToByte = (byte) hexToInt;
+                        System.out.println(intToByte);
+                        getSubjectModel().getMemoryValue()[byteIndex] = intToByte;
+                        System.out.println(getSubjectModel().getMemoryValue()[byteIndex]);
+                    }
+                    else{
+                        // This should override user if they try to change anything in column 0
+                        int rowAddr = changedRow * 20;
+                        myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
+                     }
+                //}
             }
+             public void focusLost(FocusEvent e) {
+                // This method is required for a focus listener, don't know what we would use it for. Food for thought.
+                // I don't think it would work to print the changed value in the bottom part of our GUI
+                }
+                
+                
+
+            
         });
 
     }
