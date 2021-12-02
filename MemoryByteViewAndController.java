@@ -140,7 +140,7 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
             public void focusGained(FocusEvent e){
                 int changedRow = myTable.getSelectedRow();
                 int changedColumn = myTable.getSelectedColumn();
-                int byteIndex = changedRow * 20 + changedColumn;
+                int byteIndex = changedRow * 20 + changedColumn - 1;
                 byte[] newByteArray = getSubjectModel().getMemoryValue();
                    
                     // This makes sure that user didn't change addr part of table
