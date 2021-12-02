@@ -141,37 +141,28 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                 int changedRow = myTable.getSelectedRow();
                 int changedColumn = myTable.getSelectedColumn();
                 int byteIndex = changedRow * 20 + changedColumn;
-                // I want to implement the next line of code somehow because the only problem that is happening now is 
-                // that even though the user hasn't had a chanse to change anything it runs this code.
-                //if ((int) myTable.getValueAt(changedRow, changedColumn) != (int) getSubjectModel().getMemoryValue()[byteIndex]){
+                byte[] newByteArray = getSubjectModel().getMemoryValue();
                    
                     // This makes sure that user didn't change addr part of table
                     if (changedColumn != 0 ){
                         String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
                         System.out.println(hexValue);
-                        // I couldn't get Long.parseLong to work for some reason? I found something else that seems to work
                         int hexToInt = Integer.parseInt(hexValue, 16);
-                        System.out.println(hexToInt);
                         byte intToByte = (byte) hexToInt;
-                        System.out.println(intToByte);
-                        getSubjectModel().getMemoryValue()[byteIndex] = intToByte;
-                        System.out.println(getSubjectModel().getMemoryValue()[byteIndex]);
+                        newByteArray[byteIndex] = intToByte;
+                        getSubjectModel().setMemoryValue(newByteArray);
                     }
                     else{
                         // This should override user if they try to change anything in column 0
                         int rowAddr = changedRow * 20;
                         myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
                      }
-                //}
             }
              public void focusLost(FocusEvent e) {
-                // This method is required for a focus listener, don't know what we would use it for. Food for thought.
-                // I don't think it would work to print the changed value in the bottom part of our GUI
-                }
+                 // Do nothing
+                ;
+            }
                 
-                
-
-            
         });
 
     }
