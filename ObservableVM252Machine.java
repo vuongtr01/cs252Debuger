@@ -1,5 +1,4 @@
 import vm252architecturespecifications.VM252ArchitectureSpecifications;
-import java.util.Scanner;
 
 class ObservableVM252Machine extends SimpleObservable
 {
@@ -12,6 +11,8 @@ class ObservableVM252Machine extends SimpleObservable
     private int myExecutingSpeed;
     private boolean myPauseStatus;
     private short myBreakPoint;
+    private short myInput;
+    private boolean inputReady = false;
     private String nextInst;
 
     //
@@ -31,6 +32,12 @@ class ObservableVM252Machine extends SimpleObservable
     {
         return myPC;
     }
+    
+    public short getInputValue()
+    {
+        return myInput;
+    }
+
 
     public byte [] getMemoryValue()
     {
@@ -67,6 +74,16 @@ class ObservableVM252Machine extends SimpleObservable
         return myBreakPoint;
     }
 
+    // public Semaphore getSemaphore()
+    // {
+    //     return semaphore;
+    // }
+
+    public boolean getInputReady()
+    {
+        return inputReady;
+    }
+
     //
     // Mutators
     //
@@ -86,6 +103,12 @@ class ObservableVM252Machine extends SimpleObservable
     public void setPCValue(short other)
     {
         myPC = other;
+        announceChange();
+    }
+
+    public void setInputValue(short other)
+    {
+        myInput = other;
         announceChange();
     }
 
@@ -132,6 +155,11 @@ class ObservableVM252Machine extends SimpleObservable
         myBreakPoint = other;
     }
 
+    public void setInputReady(boolean other)
+    {
+        inputReady = other;
+    }
+
     //
     // Ctors
     //
@@ -173,7 +201,7 @@ class ObservableVM252Machine extends SimpleObservable
 
     public void runProgram()
     {
-        Scanner input = new Scanner(System.in);
+        // Scanner input = new Scanner(System.in);
 
         //
         // Let opcode = the operation code portion of the instruction stored
@@ -290,49 +318,52 @@ class ObservableVM252Machine extends SimpleObservable
 
                         resetDisplayContents();
 
-                        for (System.out.print("INPUT: "), System.out.flush();
-                                input.hasNext() && ! input.hasNextInt();
-                                System.out.print("INPUT: "),
-                                    System.out.flush()) {
-                                //
-                                // Loop invariant:
-                                //     On the current INPUT attempt, all
-                                //     tokens in System.out prior to the
-                                //     next available one have been
-                                //     non-integer tokens
-                                //
-                            input.next();
-                            System.out.println(
-                                "INPUT: Bad integer value; try again"
-                                );
-                            System.out.flush();
-                            }
+                        // for (System.out.print("INPUT: "), System.out.flush();
+                        //         input.hasNext() && ! input.hasNextInt();
+                        //         System.out.print("INPUT: "),
+                        //             System.out.flush()) {
+                        //         //
+                        //         // Loop invariant:
+                        //         //     On the current INPUT attempt, all
+                        //         //     tokens in System.out prior to the
+                        //         //     next available one have been
+                        //         //     non-integer tokens
+                        //         //
+                        //     input.next();
+                        //     System.out.println(
+                        //         "INPUT: Bad integer value; try again"
+                        //         );
+                        //     System.out.flush();
+                        //     }
 
-                        setHalt(! input.hasNext());
+                        // setHalt(! input.hasNext());
 
                     //
                     // Issue an error message if no input was available
                     //
 
-                        if (getHaltStatus()) {
+                        // if (getHaltStatus()) {
 
-                            System.out.println(
-                                "EOF reading input;  machine halts"
-                                );
-                            System.out.flush();
+                        //     System.out.println(
+                        //         "EOF reading input;  machine halts"
+                        //         );
+                        //     System.out.flush();
 
-                            }
+                        //     }
 
                     //
                     // Otherwise let accumulator = the next integer read
                     //     from the standard input stream
                     //
 
-                        else
-                        {
-                            setACCValue((short) input.nextInt());
-                            setDisplayContents(new String [] {"Running INPUT"});
-                        }
+                        setDisplayContents(new String [] {"Running INPUT"});
+                        while (!getInputReady())
+                            resetDisplayContents();
+
+                        setACCValue(getInputValue());
+                        setDisplayContents(new String[] {"Set Input value to " + getInputValue()});
+
+                        setInputReady(false);  
 
                     }
 
