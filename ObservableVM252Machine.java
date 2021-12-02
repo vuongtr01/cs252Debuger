@@ -32,7 +32,7 @@ class ObservableVM252Machine extends SimpleObservable
     {
         return myPC;
     }
-    
+
     public short getInputValue()
     {
         return myInput;
@@ -135,7 +135,7 @@ class ObservableVM252Machine extends SimpleObservable
         suppressPcIncrement = other;
     }
 
-    private void setHalt(boolean other)
+    public void setHalt(boolean other)
     {
        lastInstructionCausedHalt = other;
     }
@@ -408,7 +408,10 @@ class ObservableVM252Machine extends SimpleObservable
                             % VM252ArchitectureSpecifications.numberOfMemoryBytes)
                         );
             }
-            setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
+            if (!getHaltStatus())
+                setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
+            else
+                setNextInst("program ended");
         }
 
 }

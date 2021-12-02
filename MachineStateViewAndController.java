@@ -127,6 +127,8 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
             public void actionPerformed(ActionEvent e) {
                 getSubjectModel().resetDisplayContents();
                 getSubjectModel().setPCValue(Short.valueOf(getPcTextField().getText()));
+                if(Short.valueOf(getPcTextField().getText()) == 0)
+                    getSubjectModel().setHalt(false);
                 getSubjectModel().setDisplayContents(new String[] {"Set PC value to " + getPcTextField().getText()});
                 // pc is set to counter.getText()
             }
