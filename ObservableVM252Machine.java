@@ -239,7 +239,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                     resetDisplayContents();
                     setACCValue(VM252ArchitectureSpecifications.fetchIntegerValue(getMemoryValue(), operand));
-                    setDisplayContents(new String [] {"LOAD " + operand});
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "LOAD " + operand});
 
                     }
 
@@ -247,7 +247,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                     resetDisplayContents();
                     setACCValue(operand);
-                    setDisplayContents(new String [] {"SET " + operand});
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "SET " + operand});
 
                     }
 
@@ -256,7 +256,7 @@ class ObservableVM252Machine extends SimpleObservable
                     resetDisplayContents();
                     byte [] newMemory = VM252ArchitectureSpecifications.storeIntegerValue(getMemoryValue(), operand, getACCValue());
                     setMemoryValue(newMemory);
-                    setDisplayContents(new String [] {"STORE " + operand});
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "STORE " + operand});
 
                     }
 
@@ -264,7 +264,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                     resetDisplayContents();
                     setACCValue((short)(getACCValue() + VM252ArchitectureSpecifications.fetchIntegerValue(getMemoryValue(), operand)));
-                    setDisplayContents(new String [] {"ADD " + operand});
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "ADD " + operand});
 
                     }
 
@@ -272,40 +272,38 @@ class ObservableVM252Machine extends SimpleObservable
 
                     resetDisplayContents();
                     setACCValue((short)(getACCValue() - VM252ArchitectureSpecifications.fetchIntegerValue(getMemoryValue(), operand)));
-                    setDisplayContents(new String [] {"SUBTRACT " + operand});
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "SUBTRACT " + operand});
 
                     }
 
                 case VM252ArchitectureSpecifications.JUMP_OPCODE -> {
 
                     resetDisplayContents();
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "JUMP " + operand});
                     setPCValue(operand);
                     setSuppressPcStatus(true);
-                    setDisplayContents(new String [] {"JUMP " + operand});
 
                     }
 
                 case VM252ArchitectureSpecifications.JUMP_ON_ZERO_OPCODE -> {
 
                     resetDisplayContents();
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "JUMPZ " + operand});
                     if (getACCValue() == 0) {
                         resetDisplayContents();
                         setPCValue(operand);
                         setSuppressPcStatus(true);
                         }
-                    setDisplayContents(new String [] {"JUMPZ " + operand});
-
                     }
 
                 case VM252ArchitectureSpecifications.JUMP_ON_POSITIVE_OPCODE -> {
 
                     resetDisplayContents();
+                    setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "JUMPP " + operand});
                     if (getACCValue() > 0) {
                         setPCValue(operand);
                         setSuppressPcStatus(true);
                         }
-
-                    setDisplayContents(new String [] {"JUMPP " + operand});
                     }
 
                 case VM252ArchitectureSpecifications.INPUT_OPCODE -> {
@@ -356,14 +354,14 @@ class ObservableVM252Machine extends SimpleObservable
                     //     from the standard input stream
                     //
 
-                        setDisplayContents(new String [] {"Running INPUT"});
+                        setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "Running INPUT"});
                         while (!getInputReady())
                             resetDisplayContents();
 
                         setACCValue(getInputValue());
-                        setDisplayContents(new String[] {"Set Input value to " + getInputValue()});
+                        setDisplayContents(new String[] {"Addr " + getPCValue() + ": " + "Set Input value to " + getInputValue()});
 
-                        setInputReady(false);  
+                        setInputReady(false);
 
                     }
 
@@ -371,7 +369,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                     System.out.println("OUTPUT: " + getACCValue());
                     System.out.flush();
-                    String [] output = {"OUTPUT: " + getACCValue()};
+                    String [] output = {"Addr " + getPCValue() + ": " + "OUTPUT: " + getACCValue()};
                     setDisplayContents(output);
 
                     }
@@ -385,7 +383,7 @@ class ObservableVM252Machine extends SimpleObservable
                 case VM252ArchitectureSpecifications.STOP_OPCODE -> {
 
                     setHalt(true);
-                    String [] stopMessage = {"Program Stops"};
+                    String [] stopMessage = {"Addr " + getPCValue() + ": " + "Program Stops"};
                     setDisplayContents(stopMessage);
 
                     }

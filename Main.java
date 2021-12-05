@@ -13,7 +13,7 @@ public class Main
     {
 
         EventQueue.invokeLater(
-            () -> 
+            () ->
             {
 
                 // call the file chooser method from the file chooser class
