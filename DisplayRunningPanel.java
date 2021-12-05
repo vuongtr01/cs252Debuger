@@ -94,6 +94,7 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
         getDisplayBox().setBackground(new Color(32, 32, 32));
         getDisplayBox().setForeground(Color.WHITE);
         getDisplayBox().setLineWrap(true);
+        getDisplayBox().setEditable(false);
 
         JScrollPane scroll = new JScrollPane(getDisplayBox(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
