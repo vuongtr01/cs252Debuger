@@ -142,21 +142,34 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                 int changedColumn = myTable.getSelectedColumn();
                 int byteIndex = changedRow * 20 + changedColumn - 1;
                 byte[] newByteArray = getSubjectModel().getMemoryValue();
-                   
-                    // This makes sure that user didn't change addr part of table
-                    if (changedColumn != 0 ){
-                        String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
-                        System.out.println(hexValue);
-                        int hexToInt = Integer.parseInt(hexValue, 16);
-                        byte intToByte = (byte) hexToInt;
+                // This makes sure that user didn't change addr part of table
+                if (changedColumn != 0 ){
+                    String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
+                    System.out.println(hexValue);
+                    int hexToInt = Integer.parseInt(hexValue, 16);
+                    byte intToByte = (byte) hexToInt;
+                    if (intToByte != getSubjectModel().getMemoryValue()[byteIndex]){
+                        int byteToInt  = (int) getSubjectModel().getMemoryValue()[byteIndex] & 0xff;
+                        String originalByteHexValue = Integer.toHexString(byteToInt);
+                        if( originalByteHexValue.length() % 2 == 1){
+                            originalByteHexValue = "0" + originalByteHexValue;
+                        }
+                        String [] memoryValueChanged = {
+                            "Addr " + byteIndex + ": changed from " + originalByteHexValue + " to " + hexValue
+                        };
+                        getSubjectModel().setDisplayContents(memoryValueChanged);
+                        getSubjectModel().resetDisplayContents();
                         newByteArray[byteIndex] = intToByte;
                         getSubjectModel().setMemoryValue(newByteArray);
+                    }   
+                    // Else no change, cell was most likely just clicked on
+                    // Therefore nothing needed to be printed out.
+                }
+                else{
+                    // This should override user if they try to change anything in column 0
+                    int rowAddr = changedRow * 20;
+                    myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
                     }
-                    else{
-                        // This should override user if they try to change anything in column 0
-                        int rowAddr = changedRow * 20;
-                        myTable.setValueAt("Addr " + rowAddr, changedRow, changedColumn);
-                     }
             }
              public void focusLost(FocusEvent e) {
                  // Do nothing
