@@ -286,8 +286,8 @@ class ObservableVM252Machine extends SimpleObservable
 
                 case VM252ArchitectureSpecifications.JUMP_OPCODE -> {
 
-                    resetDisplayContents();
                     setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "JUMP " + operand});
+                    resetDisplayContents();
                     setPCValue(operand);
                     setSuppressPcStatus(true);
 

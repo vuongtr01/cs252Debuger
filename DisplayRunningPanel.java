@@ -89,13 +89,16 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
         // Initially display the model's display contents
         //
 
-        setDisplayBox(new JTextArea("Welcome" + "\n", 200, 1));
+        setDisplayBox(new JTextArea("Welcome" + "\n", 10, 1));
         getDisplayBox().setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
         getDisplayBox().setBackground(new Color(32, 32, 32));
         getDisplayBox().setForeground(Color.WHITE);
         getDisplayBox().setLineWrap(true);
+        getDisplayBox().setEditable(false);
 
-        JScrollPane scroll = new JScrollPane(getDisplayBox(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scroll = new JScrollPane(getDisplayBox());
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
 
         setLayout(null);
@@ -117,6 +120,8 @@ public class DisplayRunningPanel extends JPanel implements SimpleObserver
             }
 
             getDisplayBox().append(displayString);
+            getDisplayBox().setCaretPosition(getDisplayBox().getDocument().getLength());
+
 
         }
     }
