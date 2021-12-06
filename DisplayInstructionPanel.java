@@ -5,7 +5,7 @@ import javax.swing.JList;
 
 public class DisplayInstructionPanel extends JPanel implements SimpleObserver
 {
-    private static final int OUR_DEFAULT_WIDTH = 300;
+    private static final int OUR_DEFAULT_WIDTH = 500;
     private static final int OUR_DEFAULT_HEIGHT = 200;
 
     private JPanel myPanel;
@@ -92,6 +92,8 @@ public class DisplayInstructionPanel extends JPanel implements SimpleObserver
         setDisplayBox(new JTextArea(getSubject().getHumanReadableInstructions(), 200, 1));
         getDisplayBox().setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
         getDisplayBox().setLineWrap(true);
+        getDisplayBox().setEditable(false);
+
 
         JScrollPane scroll = new JScrollPane(getDisplayBox(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);

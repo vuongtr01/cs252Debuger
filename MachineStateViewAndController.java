@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import vm252architecturespecifications.VM252ArchitectureSpecifications;
 
 public class MachineStateViewAndController extends JPanel implements SimpleObserver
 {
@@ -126,10 +127,24 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
             @Override
             public void actionPerformed(ActionEvent e) {
                 getSubjectModel().resetDisplayContents();
-                getSubjectModel().setPCValue(Short.valueOf(getPcTextField().getText()));
-                if(Short.valueOf(getPcTextField().getText()) == 0)
-                    getSubjectModel().setHalt(false);
-                getSubjectModel().setDisplayContents(new String[] {"Set PC value to " + getPcTextField().getText()});
+                try{
+                    if (Short.valueOf(getPcTextField().getText()) >= ((short)8192))
+                    {
+                        getSubjectModel().setDisplayContents(new String[] {"No address " + getPcTextField().getText()});
+                        getSubjectModel().resetDisplayContents();
+                        getSubjectModel().setPCValue(getSubjectModel().getPCValue());
+                    }else
+                    {
+                        getSubjectModel().setPCValue(Short.valueOf(getPcTextField().getText()));
+                        getSubjectModel().setHalt(false);
+                        getSubjectModel().setDisplayContents(new String[] {"Set PC value to " + getPcTextField().getText()});
+                        getSubjectModel().resetDisplayContents();
+                        getSubjectModel().setNextInst(VM252ArchitectureSpecifications.instructionToString(getSubjectModel().getMemoryValue(), getSubjectModel().getPCValue()));
+                    }
+                }catch(NumberFormatException err){
+                        getSubjectModel().setDisplayContents(new String [] {"Not a valid input. Input for PC Value must be a number"});
+                        getSubjectModel().resetDisplayContents();
+                    }
                 // pc is set to counter.getText()
             }
         };
@@ -146,8 +161,13 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         ActionListener setInputValue = new ActionListener(){
 	        public void actionPerformed(ActionEvent inputChange){
                 getSubjectModel().resetDisplayContents();
-		        getSubjectModel().setInputValue(Short.valueOf(getInputTextField().getText()));
-                getSubjectModel().setInputReady(true);
+                try{
+                    getSubjectModel().setInputValue(Short.valueOf(getInputTextField().getText()));
+                    getSubjectModel().setInputReady(true);
+                }catch(NumberFormatException err){
+                    getSubjectModel().setDisplayContents(new String [] {"Not a valid input. Input for PC Value must be a number"});
+                    getSubjectModel().resetDisplayContents();
+                }
                 //getSubjectModel().getSemaphore().release();
                 //notifyAll();
           }};
@@ -163,7 +183,6 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         setPanel(new JPanel());
         getPanel().setSize(OUR_DEFAULT_FRAME_WIDTH, OUR_DEFAULT_FRAME_HEIGHT);
         getPanel().setLayout(grid);
-
         getPanel().add(accLabel);
         getPanel().add(getAccTextField());
         getPanel().add(counterLabel);

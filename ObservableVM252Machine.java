@@ -316,51 +316,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                 case VM252ArchitectureSpecifications.INPUT_OPCODE -> {
 
-                    //
-                    // Let lastInstructionCausedHalt = true iff no integer
-                    //     is available from the standard input stream
-                    //     (discarding non-integer inputs, if necessary)
-                    //
-
                         resetDisplayContents();
-
-                        // for (System.out.print("INPUT: "), System.out.flush();
-                        //         input.hasNext() && ! input.hasNextInt();
-                        //         System.out.print("INPUT: "),
-                        //             System.out.flush()) {
-                        //         //
-                        //         // Loop invariant:
-                        //         //     On the current INPUT attempt, all
-                        //         //     tokens in System.out prior to the
-                        //         //     next available one have been
-                        //         //     non-integer tokens
-                        //         //
-                        //     input.next();
-                        //     System.out.println(
-                        //         "INPUT: Bad integer value; try again"
-                        //         );
-                        //     System.out.flush();
-                        //     }
-
-                        // setHalt(! input.hasNext());
-
-                    //
-                    // Issue an error message if no input was available
-                    //
-
-                        // if (getHaltStatus()) {
-
-                        //     System.out.println(
-                        //         "EOF reading input;  machine halts"
-                        //         );
-                        //     System.out.flush();
-
-                        //     }
-
-                    //
-                    // Otherwise let accumulator = the next integer read
-                    //     from the standard input stream
-                    //
 
                         setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "Running INPUT"});
                         while (!getInputReady())
@@ -375,8 +331,6 @@ class ObservableVM252Machine extends SimpleObservable
 
                 case VM252ArchitectureSpecifications.OUTPUT_OPCODE -> {
 
-                    System.out.println("OUTPUT: " + getACCValue());
-                    System.out.flush();
                     String [] output = {"Addr " + getPCValue() + ": " + "OUTPUT: " + getACCValue()};
                     setDisplayContents(output);
 
@@ -393,7 +347,7 @@ class ObservableVM252Machine extends SimpleObservable
                     setHalt(true);
                     String [] stopMessage = {"Addr " + getPCValue() + ": " + "Program Stops"};
                     setDisplayContents(stopMessage);
-
+                    resetDisplayContents();
                     }
 
                 }
@@ -416,8 +370,6 @@ class ObservableVM252Machine extends SimpleObservable
             }
             if (!getHaltStatus())
                 setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
-            else
-                setNextInst("program ended");
         }
 
 }

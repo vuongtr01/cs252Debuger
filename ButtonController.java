@@ -183,7 +183,6 @@ public class ButtonController extends JPanel
     {
         public void actionPerformed(ActionEvent event)
         {
-            System.out.println("Running break point listener");
             Scanner breakPointPositionScanner =
                 new Scanner(textFieldForba.getText());
 
@@ -253,21 +252,27 @@ public class ButtonController extends JPanel
             // execute obj file in another thread
             //
             boolean hitBreakPoint = false;
-            while( !getModel().getHaltStatus() && !hitBreakPoint)
+            if(getModel().getHaltStatus())
             {
-                if(getModel().getPauseStatus())
-                    ; // do nothing
-                else if (getModel().getBreakPoint() == getModel().getPCValue())
+                getModel().setDisplayContents(new String [] {"Program stopped"});
+            }else
+            {
+                while(!getModel().getHaltStatus() && !hitBreakPoint)
                 {
-                    getModel().runProgram();
-                    getModel().setDisplayContents(new String [] {"Hit breakpoint at address " + getModel().getBreakPoint() });
-                    hitBreakPoint = true;
-                }else
-                    getModel().runProgram();
+                    if(getModel().getPauseStatus())
+                        ; // do nothing
+                else if (getModel().getBreakPoint() == getModel().getPCValue())
+                    {
+                        getModel().runProgram();
+                        getModel().setDisplayContents(new String [] {"Hit breakpoint at address " + getModel().getBreakPoint() });
+                        hitBreakPoint = true;
+                    }else
+                        getModel().runProgram();
 
-                try{
-                    Thread.sleep(getModel().getExecutingSpeed());
-                }catch(Exception e){}
+                    try{
+                        Thread.sleep(getModel().getExecutingSpeed());
+                    }catch(Exception e){}
+                }
             }
         }
     }
