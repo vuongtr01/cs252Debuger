@@ -121,6 +121,12 @@ class ProgramFrame extends JFrame
         DisplayMachinePanel displayPanel = new DisplayMachinePanel(machine);
 
         //
+        // Create display instruction Pannel
+        //
+
+        DisplayInstructionPanel instructionPanel = new DisplayInstructionPanel(machine);
+
+        //
         // Create display running Pannel
         //
 
@@ -133,11 +139,14 @@ class ProgramFrame extends JFrame
         setPanel(new JPanel());
         getPanel().setLayout(null);
 
-        buttonsPanel.setBounds(0, 0, 800, 200);
+        buttonsPanel.setBounds(0, 0, 800, 100);
         getPanel().add(buttonsPanel);
 
-        displayPanel.setBounds(0, 200, 800, 300);
+        displayPanel.setBounds(0, 100, 800, 200);
         getPanel().add(displayPanel);
+
+        instructionPanel.setBounds(0, 300, 800, 200);
+        getPanel().add(instructionPanel);
 
         runningPanel.setBounds(0, 500, 800, 300);
         getPanel().add(runningPanel);

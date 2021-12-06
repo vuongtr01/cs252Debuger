@@ -2,7 +2,7 @@ package vm252architecturespecifications;
 
 
 import java.util.Scanner;
-
+import java.lang.StringBuilder;
 
 //import vm252utilities.*;
 
@@ -686,6 +686,98 @@ public class VM252ArchitectureSpecifications
                             //
                         memory[ loadAddress ] = 0;
                     return memory;
+        }
+
+        public static String humanReadableInstructions(byte[] memory)
+        {
+            String instructionString = "";
+            short programCounter = (short) 0;
+            boolean endOfCode = false;
+            boolean supressStatus = false;
+
+            while(!endOfCode)
+            {
+                byte [] encodedInstruction
+                    = fetchBytePair(memory, programCounter);
+
+                int [] decodedInstruction
+                    = decodedInstructionComponents(encodedInstruction);
+                int opcode = decodedInstruction[ 0 ];
+
+                short operand
+                    = decodedInstruction.length == 2
+                        ? ((short) (decodedInstruction[ 1 ]))
+                        : 0;
+
+                supressStatus = false;
+                switch (opcode) {
+
+                    case LOAD_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "LOAD" + operand + "\n";
+                        }
+
+                    case SET_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "SET" + operand + "\n";
+                        }
+
+                    case STORE_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "STORE" + operand + "\n";
+                        }
+
+                    case ADD_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Add" + operand + "\n";
+                        }
+
+                    case SUBTRACT_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Subtract" + operand + "\n";
+                        }
+
+                    case JUMP_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Jump" + operand + "\n";
+                        programCounter = operand;
+                        supressStatus = true;
+                        }
+
+                    case JUMP_ON_ZERO_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Jumpz" + operand + "\n";
+                        programCounter = operand;
+                        supressStatus = true;
+                        }
+
+                    case JUMP_ON_POSITIVE_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Jumpp" + operand + "\n";
+                        programCounter = operand;
+                        supressStatus = true;
+                        }
+
+                    case INPUT_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Input" + "\n";
+                        }
+
+                    case OUTPUT_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Output" + "\n";
+                        }
+
+                    case NO_OP_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Noop" + "\n";
+                        }
+
+                    case STOP_OPCODE -> {
+                        instructionString = instructionString + "[Addr " + programCounter + "] " + "Stop" + "\n";
+                        endOfCode = true;
+                        }
+
+                    }
+                if (!supressStatus)
+                {
+                    programCounter =
+                        (short)
+                            ((programCounter + instructionSize(opcode))
+                                % numberOfMemoryBytes);
+                }
+
+            }
+            return instructionString;
         }
 
         public static String instructionToString(byte[] memory, short programCounter)

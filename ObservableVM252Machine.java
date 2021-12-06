@@ -14,6 +14,7 @@ class ObservableVM252Machine extends SimpleObservable
     private short myInput;
     private boolean inputReady = false;
     private String nextInst;
+    private String humanReadableInstructions;
 
     //
     // Accessors
@@ -21,6 +22,11 @@ class ObservableVM252Machine extends SimpleObservable
     public String getNextInst()
     {
         return nextInst;
+    }
+
+    public String getHumanReadableInstructions()
+    {
+        return humanReadableInstructions;
     }
 
     public short getACCValue()
@@ -73,11 +79,6 @@ class ObservableVM252Machine extends SimpleObservable
     {
         return myBreakPoint;
     }
-
-    // public Semaphore getSemaphore()
-    // {
-    //     return semaphore;
-    // }
 
     public boolean getInputReady()
     {
@@ -160,6 +161,11 @@ class ObservableVM252Machine extends SimpleObservable
         inputReady = other;
     }
 
+    private void setHumanReadableInstructions(String other)
+    {
+        humanReadableInstructions = other;
+    }
+
     //
     // Ctors
     //
@@ -178,6 +184,7 @@ class ObservableVM252Machine extends SimpleObservable
         setPauseStatus(false);
         setBreakPoint((short)8192);
         setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
+        setHumanReadableInstructions(VM252ArchitectureSpecifications.humanReadableInstructions(getMemoryValue()));
     }
 
     ObservableVM252Machine(byte [] programEncoded)
@@ -197,6 +204,7 @@ class ObservableVM252Machine extends SimpleObservable
         setPauseStatus(false);
         setBreakPoint((short)8192);
         setNextInst(VM252ArchitectureSpecifications.instructionToString(getMemoryValue(), getPCValue()));
+        setHumanReadableInstructions(VM252ArchitectureSpecifications.humanReadableInstructions(getMemoryValue()));
     }
 
     public void runProgram()
