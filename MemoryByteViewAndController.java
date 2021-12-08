@@ -134,7 +134,6 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
 
         // Not done, want someone else to have a look at my code because I don't think it works properly
         // but I don't know what else to do to fix it at this point.
-        
 
         myTable.addFocusListener( new FocusListener(){
             public void focusGained(FocusEvent e){
@@ -145,7 +144,6 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
                 // This makes sure that user didn't change addr part of table
                 if (changedColumn != 0 ){
                     String hexValue = myTable.getValueAt(changedRow, changedColumn).toString();
-                    System.out.println(hexValue);
                     int hexToInt = Integer.parseInt(hexValue, 16);
                     byte intToByte = (byte) hexToInt;
                     if (intToByte != getSubjectModel().getMemoryValue()[byteIndex]){

@@ -183,16 +183,24 @@ public class ButtonController extends JPanel
     {
         public void actionPerformed(ActionEvent event)
         {
-            Scanner breakPointPositionScanner =
-                new Scanner(textFieldForba.getText());
+            try
+            {
+                short breakPointPosition = Short.valueOf(textFieldForba.getText());
+                if(breakPointPosition > 8191 || breakPointPosition < 0)
+                {
+                    getModel().setDisplayContents(new String[] {"No address" + breakPointPosition});
+                    getModel().resetDisplayContents();
+                }else
+                {
+                    getModel().setBreakPoint(breakPointPosition);
+                    getModel().setDisplayContents(new String[] {"set breakpoint at address " + breakPointPosition});
+                }
+            }catch(NumberFormatException err)
+            {
+                getModel().setDisplayContents(new String [] {"Not a valid input. ba value must be a number"});
+                getModel().resetDisplayContents();
 
-            short breakPointPosition =
-                breakPointPositionScanner.hasNextShort()
-                    ?(short) Math.max(0, Math.min(8191, breakPointPositionScanner.nextShort()))
-                    : (short) 0;
-
-            getModel().setBreakPoint(breakPointPosition);
-            getModel().setDisplayContents(new String[] {"set breakpoint at address " + breakPointPosition});
+            }
 
         }
     }

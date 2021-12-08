@@ -109,9 +109,15 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
         setAccTextField(new JTextField("" + getSubjectModel().getACCValue()));
         ActionListener setAccValue = new ActionListener(){
 	        public void actionPerformed(ActionEvent accChange){
-                getSubjectModel().resetDisplayContents();
-		        getSubjectModel().setACCValue(Short.valueOf(getAccTextField().getText()));
-                getSubjectModel().setDisplayContents(new String[] {"Set ACC value to " + getAccTextField().getText()});
+                try
+                {
+                    getSubjectModel().resetDisplayContents();
+                    getSubjectModel().setACCValue(Short.valueOf(getAccTextField().getText()));
+                    getSubjectModel().setDisplayContents(new String[] {"Set ACC value to " + getAccTextField().getText()});
+                }catch(NumberFormatException err){
+                    getSubjectModel().setDisplayContents(new String [] {"Not a valid input. Input for ACC Value must be a number"});
+                    getSubjectModel().resetDisplayContents();
+                }
 
           }};
         getAccTextField().addActionListener(setAccValue);
@@ -128,7 +134,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
             public void actionPerformed(ActionEvent e) {
                 getSubjectModel().resetDisplayContents();
                 try{
-                    if (Short.valueOf(getPcTextField().getText()) >= ((short)8192))
+                    if (Short.valueOf(getPcTextField().getText()) >= ((short)8192) || Short.valueOf(getPcTextField().getText()) < ((short) 0))
                     {
                         getSubjectModel().setDisplayContents(new String[] {"No address " + getPcTextField().getText()});
                         getSubjectModel().resetDisplayContents();
@@ -165,7 +171,7 @@ public class MachineStateViewAndController extends JPanel implements SimpleObser
                     getSubjectModel().setInputValue(Short.valueOf(getInputTextField().getText()));
                     getSubjectModel().setInputReady(true);
                 }catch(NumberFormatException err){
-                    getSubjectModel().setDisplayContents(new String [] {"Not a valid input. Input for PC Value must be a number"});
+                    getSubjectModel().setDisplayContents(new String [] {"Not a valid input. Input for value must be a number"});
                     getSubjectModel().resetDisplayContents();
                 }
                 //getSubjectModel().getSemaphore().release();
