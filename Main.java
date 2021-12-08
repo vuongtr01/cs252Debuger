@@ -39,7 +39,7 @@ class ObjectFileChooser extends JFileChooser
         fileChooser.setFileFilter(filter);
 
         // Specify the location to be the current directory for the file chooser search
-        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setCurrentDirectory(new File("./vm252obj_examples"));
 
         // assign the result from file choices to response
         // it is int because it will be 0 if a file was chosen
@@ -51,7 +51,7 @@ class ObjectFileChooser extends JFileChooser
         // get the object code from the choosen file
         // then feed that into the program
         if(response == JFileChooser.APPROVE_OPTION) {
-            String file = fileChooser.getSelectedFile().getName();
+            String file = fileChooser.getSelectedFile().getPath();
             byte [] program = VM252Utilities.readObjectCodeFromObjectFile(file);
             ProgramFrame frame = new ProgramFrame(program);
 
