@@ -107,6 +107,11 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         for (int header=0; header < 21; ++header){
             myTable.getColumnModel().getColumn(header).setHeaderValue(columnHeaders[header]);
         };
+
+        for (int col=1; col < 21; ++col){
+            myTable.getColumnModel().getColumn(col).setPreferredWidth(30);;
+        };
+
       
         // Keeps track of what index we are at in our memory array as we populate the table
         int memoryValueIndex = 0;
