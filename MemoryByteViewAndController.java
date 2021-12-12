@@ -88,38 +88,54 @@ public class MemoryByteViewAndController extends JPanel implements SimpleObserve
         // Create table to display memory bytes
         //
 
+        
+
         myTable = new JTable(410, 21);
 
         // Row address counter for labeling
         int rowAddr = 0;
 
+        // Array of column headers
+        String columnHeaders[] = {
+            "Address","0", "1","2","3","4","5","6","7",
+             "8", "9", "10", "11", "12", "13", "14",
+             "15", "16", "17", "18", "19"
+         };
+
+         // For loop that changes column headers to the correct header value from columnHeaders
+        
+        for (int header=0; header < 21; ++header){
+            myTable.getColumnModel().getColumn(header).setHeaderValue(columnHeaders[header]);
+        };
+      
+        // Keeps track of what index we are at in our memory array as we populate the table
         int memoryValueIndex = 0;
 
        
-            for(int row = 0; row < 410; ++row){
-                myTable.setValueAt("Addr " + rowAddr, row, 0);
-                for(int col = 1; col < 21; ++col){
-                    if(memoryValueIndex != 8192){
+        for(int row = 0; row < 410; ++row){
+            myTable.setValueAt("Addr " + rowAddr, row, 0);
+            for(int col = 1; col < 21; ++col){
+                if(memoryValueIndex != 8192){
 
-                        //
-                        // Convert each byte as we loop through to an int and mask it 
-                        // so that we can convert into a hex string
-                        //
+                    //
+                    // Convert each byte as we loop through to an int and mask it 
+                    // so that we can convert into a hex string
+                    //
 
-                        int byteToInt  = (int) getSubjectModel().getMemoryValue()[memoryValueIndex] & 0xff;
-                        String hexValue = Integer.toHexString(byteToInt);
+                    int byteToInt  = (int) getSubjectModel().getMemoryValue()[memoryValueIndex] & 0xff;
+                    String hexValue = Integer.toHexString(byteToInt);
 
-                        // Pads hexValue with a zero if half a hex
-                        if( hexValue.length() % 2 == 1){
-                            hexValue = "0" + hexValue;
-                        }
-                        myTable.setValueAt(hexValue, row, col);
-                        ++memoryValueIndex;
+                    // Pads hexValue with a zero if half a hex
+                    if( hexValue.length() % 2 == 1){
+                        hexValue = "0" + hexValue;
                     }
-                    // else there is nothing left to populate table as all of the memory
-                    //has been entered into the table
+                    myTable.setValueAt(hexValue, row, col);
+                    ++memoryValueIndex;
                 }
-                rowAddr = rowAddr + 20;
+                // else there is nothing left to populate table as all of the memory
+                //has been entered into the table
+            }
+            rowAddr = rowAddr + 20;
             }
 
         myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
