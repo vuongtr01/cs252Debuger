@@ -308,6 +308,7 @@ class ObservableVM252Machine extends SimpleObservable
 
                     resetDisplayContents();
                     setDisplayContents(new String [] {"Addr " + getPCValue() + ": " + "JUMPP " + operand});
+                    resetDisplayContents();
                     if (getACCValue() > 0) {
                         setPCValue(operand);
                         setSuppressPcStatus(true);
