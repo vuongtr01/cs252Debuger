@@ -734,20 +734,14 @@ public class VM252ArchitectureSpecifications
 
                     case JUMP_OPCODE -> {
                         instructionString = instructionString + "[Addr " + programCounter + "] " + "Jump" + operand + "\n";
-                        programCounter = operand;
-                        supressStatus = true;
                         }
 
                     case JUMP_ON_ZERO_OPCODE -> {
                         instructionString = instructionString + "[Addr " + programCounter + "] " + "Jumpz" + operand + "\n";
-                        programCounter = operand;
-                        supressStatus = true;
                         }
 
                     case JUMP_ON_POSITIVE_OPCODE -> {
                         instructionString = instructionString + "[Addr " + programCounter + "] " + "Jumpp" + operand + "\n";
-                        programCounter = operand;
-                        supressStatus = true;
                         }
 
                     case INPUT_OPCODE -> {
