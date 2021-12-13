@@ -89,7 +89,7 @@ public class DisplayInstructionPanel extends JPanel implements SimpleObserver
         // Initially display the model's display contents
         //
 
-        setDisplayBox(new JTextArea(getSubject().getHumanReadableInstructions(), 200, 1));
+        setDisplayBox(new JTextArea(getSubject().getHumanReadableInstructions(), 10, 1));
         getDisplayBox().setBounds(150, 25, OUR_DEFAULT_WIDTH, OUR_DEFAULT_HEIGHT);
         getDisplayBox().setLineWrap(true);
         getDisplayBox().setEditable(false);
